@@ -1,0 +1,1513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ramayana Characters</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fdfdfd; padding: 15px; margin: 0; color: #333; -webkit-text-size-adjust: 100%; }
+        
+        /* CONTROLS */
+        .controls { 
+            position: sticky; top: 0; background: #fdfdfd; z-index: 1000; 
+            padding: 10px; border-bottom: 2px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .header-row { display: flex; align-items: center; justify-content: space-between; }
+        h1 { margin: 0; font-size: 1.2em; color: #8b0000; }
+        
+        /* BUTTONS */
+        button { 
+            padding: 10px 15px; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 4px; 
+            font-weight: bold; color: #333; font-size: 14px;
+            -webkit-appearance: none; touch-action: manipulation;
+        }
+        button.active { background: #e67e22; color: white; border-color: #d35400; }
+        
+        /* TREE */
+        .tree-container { margin-top: 15px; padding-bottom: 80px; }
+        details { margin: 5px 0; padding-left: 15px; border-left: 2px solid #eee; }
+        details[open] { border-left: 3px solid #e67e22; background-color: #fffaf0; }
+        summary {
+            font-weight: bold; cursor: pointer; padding: 12px 5px; list-style: none; display: flex; align-items: center;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: "▶"; color: #e67e22; display: inline-block; margin-right: 8px; font-size: 0.8em; transition: transform 0.2s; }
+        details[open] > summary::before { transform: rotate(90deg); }
+
+        /* LANGUAGE */
+        .lang-ta { display: none; color: #006400; }
+        .lang-en { display: inline; }
+        body.show-ta .lang-ta { display: inline; }
+        body.show-ta .lang-en { display: none; }
+        body.show-ta div.lang-ta { display: block; }
+        body:not(.show-ta) div.lang-en { display: block; }
+
+        /* CARDS */
+        .char-content { padding: 10px; margin-top: 5px; border-top: 1px solid #eee; }
+        .info-box { 
+            padding: 8px 10px; margin-bottom: 5px; border-radius: 4px; font-size: 0.95em; line-height: 1.4;
+            border-left-width: 4px; border-left-style: solid; background: white;
+        }
+        .inline-label { font-weight: 800; text-transform: uppercase; font-size: 0.8em; margin-right: 6px; }
+        .box-meaning { border-left-color: #9c27b0; background: #f3e5f5; }
+        .box-context { border-left-color: #ff9800; background: #fff8e1; }
+        .box-lesson { border-left-color: #2196f3; background: #e3f2fd; }
+        .box-virtue { border-left-color: #4caf50; background: #e8f5e9; }
+    </style>
+</head>
+<body class="show-en">
+
+    <div class="controls">
+        <div class="header-row">
+            <h1>Ramayana Tree</h1>
+            <div>
+                <button id="btn-en" class="active" onclick="setLang('en')">Eng</button>
+                <button id="btn-ta" onclick="setLang('ta')">Tam</button>
+            </div>
+        </div>
+        <div class="header-row">
+             <button onclick="safeExpandAll()" style="width: 48%">Expand All</button>
+             <button onclick="safeCollapseAll()" style="width: 48%">Collapse</button>
+        </div>
+    </div>
+
+    <div class="tree-container">
+<details><summary><span class="lang-en">Ayodhya (The Solar Dynasty)</span><span class="lang-ta">அயோத்தி (சூரிய வம்சம்)</span></summary><details><summary><span class="lang-en">The Royal Family</span><span class="lang-ta">அரச குடும்பம்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Rama <small>(Prince of Ayodhya)</small></span>
+                            <span class="lang-ta">ராமர் <small>(அயோத்தி இளவரசர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>One who gives pleasure</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Born to King Dasharatha and Queen Kausalya.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Dharma (Duty) is supreme.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Maryada Purushottam</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மகிழ்ச்சி அளிப்பவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>மன்னர் தசரதர் மற்றும் ராணி கோசலைக்கு பிறந்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தர்மமே வெல்லும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>மரியாதை புருஷோத்தமன்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sita <small>(Princess of Mithila)</small></span>
+                            <span class="lang-ta">சீதை <small>(மிதிலை இளவரசி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Furrow (Earth-born)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Found by Janaka in the earth.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Unwavering Chastity and resilience.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Chastity</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>உழவு சால் (பூமி மகள்)</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ஜனகரால் பூமியில் கண்டெடுக்கப்பட்டவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தளராத கற்பு நெறி மற்றும் மன உறுதி.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>கற்பு</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Lakshmana <small>(Brother of Rama)</small></span>
+                            <span class="lang-ta">லட்சுமணன் <small>(ராமரின் தம்பி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Possessing lucky marks</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Followed Rama into exile for 14 years.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Service to God is higher than personal comfort.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Selfless Service</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>லட்சணமானவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>14 ஆண்டுகள் ராமருடன் வனவாசம் சென்றவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>இறைவனுக்கு செய்யும் சேவையே மேலானது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>சுயநலமற்ற சேவை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Dasharatha <small>(King of Ayodhya)</small></span>
+                            <span class="lang-ta">தசரதன் <small>(அயோத்தி மன்னர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Ten Chariots (Warrior)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Father of Rama who died of grief after the exile.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Promises must be kept even at the cost of life.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Truthfulness (Satya)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பத்து ரதங்களை உடையவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமரின் தந்தை; பிரிவின் துயரால் உயிர் நீத்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உயிரே போனாலும் கொடுத்த வாக்கை காப்பாற்ற வேண்டும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>சத்தியம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Kausalya <small>(Queen Mother)</small></span>
+                            <span class="lang-ta">கோசலை <small>(ராஜ மாதா)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>From Kosala Kingdom</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The biological mother of Rama.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>A mother's love supports the child's dharma above her own pain.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Maternal Sacrifice</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கோசல நாட்டைச் சேர்ந்தவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமரின் தாயார்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தாயின் அன்பு மகனின் தர்மத்திற்காக சொந்த வலியை பொறுத்துக் கொள்ளும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>தாய்மை தியாகம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Kaikeyi <small>(Queen)</small></span>
+                            <span class="lang-ta">கைகேயி <small>(ராணி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Princess of Kekeya</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Demanded Rama's exile due to Manthara's poisoning.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Even good nature can be corrupted by bad company.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Bad Association</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கேகய நாட்டு இளவரசி</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>மந்தரையின் போதனையால் ராமரை காட்டிற்கு அனுப்பியவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>நல்ல குணமும் தீய நட்பால் கெட்டுவிடும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: தீய நட்பு</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sumitra <small>(Queen)</small></span>
+                            <span class="lang-ta">சுமித்திரை <small>(ராணி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Good Friend</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Mother of Lakshmana and Shatrughna.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Selflessly encouraging children to serve others.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Selflessness</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நல்ல தோழி</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>லட்சுமணன் மற்றும் சத்ருக்னனின் தாய்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தன் பிள்ளைகளை பிறருக்கு சேவை செய்ய தூண்டுபவள்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>சுயநலமின்மை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Bharata <small>(Brother of Rama)</small></span>
+                            <span class="lang-ta">பரதன் <small>(ராமரின் தம்பி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>The Cherished One</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Refused the throne and ruled as a regent using Rama's sandals.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Power belongs to the Divine and we are just caretakers.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Detachment (Tyaga)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பராமரிக்கப்படுபவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அரியணையை மறுத்து ராமரின் பாதுகையை வைத்து ஆட்சி செய்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>அதிகாரம் இறைவனுக்கே உரியது; நாம் வெறும் காவலாளிகள்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>தியாகம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Shatrughna <small>(Brother of Rama)</small></span>
+                            <span class="lang-ta">சத்ருக்னன் <small>(ராமரின் தம்பி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Slayer of Enemies</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Silently served Bharata while Bharata served Rama.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Serving the servant of God is the highest worship.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Silent Service</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>எதிரிகளை அழிப்பவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>பரதனுக்கு அமைதியாக சேவை செய்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>இறைவனின் அடியாருக்கு செய்யும் சேவையே சிறந்தது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அமைதியான சேவை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Urmila <small>(Wife of Lakshmana)</small></span>
+                            <span class="lang-ta">ஊர்மிளை <small>(லட்சுமணனின் மனைவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Enchanting / Wave of Passion</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Slept for 14 years so Lakshmana could stay awake to serve Rama.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Silent sacrifice is as powerful as active service.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Silent Sacrifice</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>வசீகரிப்பவள் / அலை</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>லட்சுமணன் ராமருக்கு சேவை செய்ய; 14 ஆண்டுகள் தூங்கியவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>செயல்பாட்டை விட அமைதியான தியாகம் வலிமையானது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அமைதியான தியாகம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Mandavi <small>(Wife of Bharata)</small></span>
+                            <span class="lang-ta">மாண்டவி <small>(பரதனின் மனைவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Fit / Competent</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Supported Bharata in his ascetic life at Nandigram.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Supporting a partner's righteous vows is true companionship.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Supportive Spouse</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>தகுதியுடையவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>நந்திகிராமத்தில் பரதனின் துறவு வாழ்க்கைக்குத் துணையாக இருந்தவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>துணையின் தர்மத்திற்கு ஆதரவளிப்பதே சிறந்த இல்லறம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஆதரவான துணை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Shrutakirti <small>(Wife of Shatrughna)</small></span>
+                            <span class="lang-ta">ஸ்ருதகீர்த்தி <small>(சத்ருக்னனின் மனைவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Famous for listening</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The quietest sister who managed the palace while others were away.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Duty performed without fanfare sustains the family.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Duty (Dharma)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கேட்பதில் சிறந்தவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>மற்றவர்கள் இல்லாதபோது அரண்மனையை நிர்வகித்த அமைதியான சகோதரி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>ஆரவாரமில்லாமல் செய்யும் கடமையே குடும்பத்தைத் தாங்கும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>கடமை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Shanta <small>(Dasharatha's Daughter)</small></span>
+                            <span class="lang-ta">சாந்தா <small>(தசரதரின் மகள்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Peaceful / Calm</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Dasharatha's first child; adopted by King Romapada.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Peace brings prosperity (her husband performed the yagna for Rama's birth).</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Peace (Shanti)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>அமைதியானவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ரோமபாத மன்னரால் தத்தெடுக்கப்பட்ட தசரதரின் மூத்த மகள்; ரிஷ்யசிருங்க முனிவரின் மனைவி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>அமைதியே செழிப்பைத் தரும் (அவர் கணவரே புத்திர காமேஷ்டி யாகத்தை நடத்தியவர்).</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அமைதி</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Administration & Staff</span><span class="lang-ta">நிர்வாகம் & பணியாளர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Manthara <small>(Maid)</small></span>
+                            <span class="lang-ta">மந்தரை <small>(பணிப்பெண்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Humpbacked / Crooked</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Poisoned Kaikeyi's mind against Rama.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Bad association corrupts even good hearts.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Envy</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கூனி / வளைந்தவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமருக்கு எதிராக கைகேயியின் மனதை மாற்றியவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தீய நட்பு நல்ல மனதையும் கெடுத்துவிடும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>பொறாமை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sumantra <small>(Chief Minister)</small></span>
+                            <span class="lang-ta">சுமந்திரன் <small>(தலைமை அமைச்சர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Good Counselor</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Dasharatha's trusted charioteer who drove Rama to the forest.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Loyalty involves sharing the pain of those you serve.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Unwavering Loyalty</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நல்ல ஆலோசகர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமரை காட்டு எல்லை வரை அழைத்துச் சென்ற தசரதரின் நம்பிக்கைக்குரிய ஆலோசகர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>விசுவாசம் என்பது அதிகாரத்தை அனுபவிப்பது மட்டுமல்ல; தலைவரின் வலியிலும் பங்கு கொள்வது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அசைக்க முடியாத விசுவாசம்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Royal Family (Next Gen)</span><span class="lang-ta">அரச குடும்பம் (அடுத்த தலைமுறை)</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Lava <small>(Son of Rama)</small></span>
+                            <span class="lang-ta">லவன் <small>(ராமரின் மகன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Particle / Fragment</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Twin son of Rama and Sita; raised by Sage Valmiki.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Knowledge and valor can flourish even in a hermitage.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Valor & Art</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>துகள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமர் மற்றும் சீதையின் இரட்டை மகன்களில் ஒருவர்; வால்மீகி முனிவரால் வளர்க்கப்பட்டவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>ஆசிரமத்தில் வளர்ந்தாலும் அறிவும் வீரமும் சிறக்க முடியும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>வீரம் & கலை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Kusha <small>(Son of Rama)</small></span>
+                            <span class="lang-ta">குசன் <small>(ராமரின் மகன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Sacred Grass (Darbha)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Twin son of Rama and Sita; he and Lava captured the sacrificial horse.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Bravery is inherent; not just inherited.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Valor</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>தர்ப்பை புல்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமர் மற்றும் சீதையின் இரட்டை மகன்களில் ஒருவர்; அஸ்வமேத குதிரையை பிடித்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>வீரம் என்பது பிறப்பால் வருவது மட்டுமல்ல; இயல்பிலேயே அமைவது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>வீரம்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Priests & Sages</span><span class="lang-ta">குருமார்கள் & முனிவர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Vashishta <small>(Kula Guru (Preceptor))</small></span>
+                            <span class="lang-ta">வசிஷ்டர் <small>(குல குரு)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Most Wealthy / Excellent</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The royal guru of the Solar Dynasty who taught Rama.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>A teacher shapes the destiny of the student and the kingdom.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Wisdom (Guru)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மிகச் சிறந்தவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சூரிய வம்சத்தின் குல குரு; ராமருக்கு பாடம் புகட்டியவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>ஒரு ஆசிரியர் மாணவனின் மற்றும் நாட்டின் தலைவிதியை உருவாக்குகிறார்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஞானம் (குரு)</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Rishyasringa <small>(Sage)</small></span>
+                            <span class="lang-ta">ரிஷ்யசிருங்கர் <small>(முனிவர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Deer-Horned</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Performed the Putrakameshti Yagna for Dasharatha; Shanta's husband.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Divine rituals performed with purity yield divine results.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Purity (Tapas)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மான் கொம்பு உடையவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>தசரதருக்காக புத்திர காமேஷ்டி யாகம் செய்தவர்; சாந்தாவின் கணவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தூய்மையுடன் செய்யப்படும் யாகங்கள் தெய்வீக பலனைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>தவம்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details></details><details><summary><span class="lang-en">Kishkindha (The Vanara Kingdom)</span><span class="lang-ta">கிஷ்கிந்தா (வானர ராஜ்ஜியம்)</span></summary><details><summary><span class="lang-en">The Counselors</span><span class="lang-ta">ஆலோசகர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Hanuman <small>(Sugriva's Minister)</small></span>
+                            <span class="lang-ta">அனுமன் <small>(சுக்ரீவனின் அமைச்சர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>One with a prominent jaw</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Met Rama in the forest disguised as a student.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Impossible feats become possible through devotion.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Dasya Bhakti</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பெரிய தாடையை உடையவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>காட்டில் ராமரை மாணவர் வேடத்தில் சந்தித்தார்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தூய பக்தியால் அசாத்தியமும் சாத்தியமாகும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>தாஸ்ய பக்தி</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Jambavan <small>(King of Bears)</small></span>
+                            <span class="lang-ta">ஜாம்பவான் <small>(கரடி அரசன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>King of Bears</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Wise elder who made Hanuman realize his strength.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>A mentor awakens the dormant potential in others.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Wisdom</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கரடி வேந்தன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அனுமனுக்கு அவனது சக்தியை உணர்த்திய பெரியவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>ஒரு நல்ல குரு மற்றவர்களின் திறமையை வெளிக்கொண்டு வருவார்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஞானம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sushena <small>(Royal Physician)</small></span>
+                            <span class="lang-ta">சுஷேனன் <small>(ராஜ வைத்தியர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Good Army / Well-Bound</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Vanara doctor who used the Sanjeevani herbs to heal Lakshmana.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Healing is a noble service in times of war.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Healing / Service</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நல்ல சேனை / கட்டுக்கோப்பானவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சஞ்சீவினி மூலிகையைக் கொண்டு லட்சுமணனை குணப்படுத்திய வானர மருத்துவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>போர்க்காலத்தில் மருத்துவம் ஒரு உன்னதமான சேவை.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>மருத்துவம் / சேவை</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Royal Family</span><span class="lang-ta">அரச குடும்பம்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sugriva <small>(King of Kishkindha)</small></span>
+                            <span class="lang-ta">சுக்ரீவன் <small>(கிஷ்கிந்தா மன்னன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Beautiful Neck</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Exiled monkey king who helped Rama find Sita.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Gratitude is the mark of a noble soul.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Friendship</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>அழகிய கழுத்துடையவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமருக்கு உதவிய வானர மன்னன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>நன்றியுணர்வே உயர்ந்த மனிதனின் அடையாளம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>நட்பு</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Vali <small>(Former King)</small></span>
+                            <span class="lang-ta">வாலி <small>(முன்னாள் மன்னன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Tail-Born</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Powerful brother of Sugriva killed by Rama for adharma.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Power without ethics leads to destruction.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Arrogance</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>வாலில் பிறந்தவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சுக்ரீவனின் அண்ணன்; அதர்மத்திற்காக ராமரால் கொல்லப்பட்டவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>நெறிமுறை இல்லாத வலிமை அழிவைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: அகங்காரம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Angada <small>(Crown Prince)</small></span>
+                            <span class="lang-ta">அங்கதன் <small>(இளவரசன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Limb / Bracelet</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Son of Vali who served Rama faithfully.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Setting aside personal grievance for a higher cause.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Diplomacy</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>உறுப்பு / காப்பு</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>வாலியின் மகன்; ராமருக்கு உண்மையாக உழைத்தவன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உயர்ந்த லட்சியத்துக்காக தனிப்பட்ட கோபத்தை மறத்தல்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ராஜதந்திரம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Tara <small>(Queen of Kishkindha)</small></span>
+                            <span class="lang-ta">தாரை <small>(கிஷ்கிந்தா ராணி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Star / Savior</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Wise wife of Vali who warned him not to fight Sugriva.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Intelligence requires listening to good counsel.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Wisdom (Buddhi)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நட்சத்திரம் / காப்பவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சுக்ரீவனுடன் போரிட வேண்டாம் என்று வாலியை எச்சரித்த அறிவுள்ள மனைவி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>அறிவுக்கு நல்ல ஆலோசனையைக் கேட்பது அவசியம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அறிவு (புத்தி)</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Ruma <small>(Sugriva's Wife)</small></span>
+                            <span class="lang-ta">ருமை <small>(சுக்ரீவனின் மனைவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Salt / Luster</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Sugriva's wife who was taken by Vali and later restored.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Dharma protects the dignity of women.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Fidelity</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>உப்பு / ஒளி</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>வாலியால் கவரப்பட்டு பின்னர் சுக்ரீவனிடம் ஒப்படைக்கப்பட்டவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தர்மம் பெண்களின் கண்ணியத்தைக் காக்கும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>கற்பு</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Commanders</span><span class="lang-ta">தளபதிகள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Nala <small>(Vanara Engineer)</small></span>
+                            <span class="lang-ta">நளன் <small>(வானர பொறியாளர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Stem / Reed</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Son of Vishvakarma who engineered the bridge (Ram Setu).</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Technical skill becomes divine service when used for God.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Skill in Action</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>தண்டு / நாணல்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமர் பாலத்தை (ராம் சேது) வடிவமைத்த விஸ்வகர்மாவின் மகன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தெய்வீக சேவைக்காக பயன்படுத்தப்படும் திறமை உயர்வானது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>செயல் திறன்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Nila <small>(Commander)</small></span>
+                            <span class="lang-ta">நீலன் <small>(தளபதி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Dark Blue</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Led the Vanara army and fought mostly with rocks and trees.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Leadership is about mobilizing available resources effectively.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Leadership</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நீல நிறத்தவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>வானரப் படையை வழிநடத்தி பாறைகள் மற்றும் மரங்களால் போரிட்டவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>கிடைக்கும் வளங்களை வைத்து சிறப்பாக செயல்படுவதே தலைமைத்துவம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>தலைமைத்துவம்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details></details><details><summary><span class="lang-en">Lanka (The Rakshasa Empire)</span><span class="lang-ta">இலங்கை (ராக்ஷச சாம்ராஜ்யம்)</span></summary><details><summary><span class="lang-en">The Ruling Family</span><span class="lang-ta">ஆளும் குடும்பம்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Ravana <small>(King of Lanka)</small></span>
+                            <span class="lang-ta">ராவணன் <small>(இலங்கை மன்னன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>One who makes others cry</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The ten-headed scholar who abducted Sita.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Intelligence without character leads to destruction.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Ego (Ahankara)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>அலற வைப்பவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சீதையை கடத்திய பத்து தலை கொண்ட அறிஞன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>ஒழுக்கம் இல்லாத அறிவு அழிவுக்கே வழிவகுக்கும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அகங்காரம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Kumbhakarna <small>(Brother of Ravana)</small></span>
+                            <span class="lang-ta">கும்பகர்ணன் <small>(ராவணனின் தம்பி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Pot-Eared</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Giant warrior who fought for Ravana despite knowing the truth.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Blind loyalty to kin leads to ruin.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Blind Loyalty</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பானை போன்ற காதுடையவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>உண்மை தெரிந்தும் ராவணனுக்காக போரிட்ட மாவீரன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உறவினர்க்கு காட்டும் குருட்டு விசுவாசம் அழிவைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>குருட்டு விசுவாசம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Vibhishana <small>(Future King)</small></span>
+                            <span class="lang-ta">விபீஷணன் <small>(வருங்கால மன்னன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Terrifying (to enemies)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Surrendered to Rama after Ravana rejected his good advice.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>God accepts anyone who surrenders completely.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Surrender (Saranagati)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>எதிரிகளுக்கு அச்சம் தருபவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராவணனை விட்டு ராமரிடம் சரணடைந்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>முழுமையாக சரணடைபவரை இறைவன் ஏற்றுக்கொள்வார்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>சரணாகதி</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Mandodari <small>(Queen)</small></span>
+                            <span class="lang-ta">மண்டோதரி <small>(ராணி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Soft-Bellied</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Ravana's wife who tried to guide him to righteousness.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>The suffering of the righteous amidst the wicked.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Chastity</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மென்மையான வயிறுடையவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராவணனை நல்வழிப்படுத்த முயன்ற மனைவி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தீயவர்க்கு நடுவே நல்லவர்களின் துன்பம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>கற்பு</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Surpanakha <small>(Ravana's Sister)</small></span>
+                            <span class="lang-ta">சூர்ப்பனகை <small>(ராவணனின் தங்கை)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Winnow-Fan Fingernails</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Demoness whose lust started the Ramayana war.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Uncontrolled desire creates chaos.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Lust</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>முறம் போன்ற நகங்கள் உடையவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>இராமாயணப் போருக்கே காரணமான அரக்கி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>கட்டுப்படுத்தப்படாத ஆசை அழிவை உண்டாக்கும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: காமம்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Warrior Sons</span><span class="lang-ta">வீர புதல்வர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Indrajit <small>(Crown Prince)</small></span>
+                            <span class="lang-ta">இந்திரஜித் <small>(இளவரசன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Conqueror of Indra</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Ravana's son who defeated Rama and Lakshmana twice.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Skill used for evil is wasted.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Misguided Valor</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>இந்திரனை வென்றவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராம லட்சுமணர்களை இருமுறை வீழ்த்திய ராவணனின் மகன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தீய வழியில் பயன்படுத்தப்படும் திறமை வீணானது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>திசைமாறிய வீரம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Atikaya <small>(Son of Ravana)</small></span>
+                            <span class="lang-ta">அதிகாயன் <small>(ராவணனின் மகன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Huge Body</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>A giant warrior defeated by Lakshmana using the Brahmastra.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Physical size does not guarantee victory against righteousness.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Warrior Spirit</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மிகப்பெரிய உடல் கொண்டவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>லட்சுமணனால் பிரம்மாஸ்திரம் மூலம் வீழ்த்தப்பட்ட மாவீரன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தர்மத்திற்கு முன் உடல் வலிமை எடுபடாது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>வீரம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Akshayakumara <small>(Youngest Son of Ravana)</small></span>
+                            <span class="lang-ta">அக்ஷயகுமாரன் <small>(ராவணனின் இளைய மகன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Indestructible Son</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Warrior killed by Hanuman in the Ashoka Vatika.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Reckless courage against a superior force leads to early death.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Reckless Valor</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>அழியாத மைந்தன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அசோக வனத்தில் அனுமனால் கொல்லப்பட்ட வீரன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>ஆற்றல் மிக்கவரை எதிர்ப்பது அழிவைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>துணிச்சல்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Ministers & Spies</span><span class="lang-ta">அமைச்சர்கள் & உளவாளிகள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Maricha <small>(Sorcerer)</small></span>
+                            <span class="lang-ta">மாரீசன் <small>(மாயாவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Ray of Light</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Became the Golden Deer to lure Rama away.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Serving evil out of fear leads to death.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Deceit</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>ஒளிக்கதிர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமரை ஏமாற்ற பொன்மானாக வந்தவன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>பயத்தால் தீயவர்க்கு பணிவது அழிவைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: ஏமாற்றுதல்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Friends & Allies</span><span class="lang-ta">நண்பர்கள் & தோழர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Trijata <small>(Demoness Guard)</small></span>
+                            <span class="lang-ta">திரிஜடை <small>(அரக்கி (காவலாளி))</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Three Braids (Trinity)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The kind demoness who comforted Sita and dreamt of Rama's victory.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Goodness can exist even in the darkest environments.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Hope and Kindness</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மூன்று சடைகள் கொண்டவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சீதைக்கு ஆறுதல் கூறிய மற்றும் ராமரின் வெற்றியை கனவில் கண்ட அரக்கி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>இருண்ட சூழலிலும் நன்மையோடு இருக்க முடியும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>நம்பிக்கை மற்றும் கருணை</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Commanders</span><span class="lang-ta">தளபதிகள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Prahasta <small>(Chief Commander)</small></span>
+                            <span class="lang-ta">பிரஹஸ்தன் <small>(தலைமை தளபதி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Extended Hand</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Ravana's chief general who led the first wave of the war.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Blind obedience to a tyrant leads to destruction.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Obedience (Blind)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நீண்ட கை</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>போரின் முதல் அலையை வழிநடத்திய ராவணனின் தலைமைத் தளபதி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>கொடுங்கோலனுக்கு காட்டும் விசுவாசம் அழிவைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>கீழ்ப்படிதல்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Guardians & Obstacles</span><span class="lang-ta">காவலர்கள் & தடைகள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Surasa <small>(Mother of Nagas)</small></span>
+                            <span class="lang-ta">சுரசை <small>(நாகங்களின் தாய்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Good Flavor / Essence</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Tested Hanuman's intelligence by asking him to enter her mouth.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Intelligence (Yukti) can overcome physical obstacles.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Intelligence</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நல்ல சுவை</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அனுமனை தன் வாய்க்குள் நுழையச் சொல்லி அவனது புத்திசாலித்தனத்தை சோதித்தவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உடல் வலிமையை விட புத்திசாலித்தனமே தடைகளை வெல்லும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>புத்திசாலித்தனம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Simhika <small>(Shadow Catcher)</small></span>
+                            <span class="lang-ta">சிம்ஹிகை <small>(நிழலை பிடிப்பவள்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Lioness</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The demoness who caught Hanuman by his shadow; he killed her.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Obstacles that drag you down must be destroyed immediately.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Obstruction</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பெண் சிங்கம்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அனுமனை நிழலைப் பிடித்து தடுத்த அரக்கி; அவளை அனுமன் வதம் செய்தார்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>நம்மை கீழே இழுக்கும் தடைகளை உடனடியாக அழிக்க வேண்டும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: தடை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Lankini <small>(Guardian of Lanka)</small></span>
+                            <span class="lang-ta">லங்கினி <small>(இலங்கை காவல் தெய்வம்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Goddess of Lanka</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The guardian deity who stopped Hanuman at the gates; his blow liberated her.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>When righteousness (Dharma) enters; the protectors of adharma must fall.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Gatekeeper</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>லங்காதேவி</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அனுமனை தடுத்த இலங்கையின் காவல் தெய்வம்; அனுமனின் அடியால் சாப விமோசனம் பெற்றவள்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தர்மம் நுழையும் போது அதர்மத்தின் காவலர்கள் வீழ்ந்தே தீருவார்கள்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>காவலாளி</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Counselors</span><span class="lang-ta">ஆலோசகர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Malyavan <small>(Grandfather / Advisor)</small></span>
+                            <span class="lang-ta">மால்யவான் <small>(தாத்தா / ஆலோசகர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Possessing Garlands</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Ravana's maternal grandfather who advised him against war.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Age brings wisdom; but power often ignores it.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Counsel</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மாலை அணிந்தவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>போர் வேண்டாம் என்று ராவணனுக்கு அறிவுரை கூறிய தாத்தா.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>வயது அனுபவத்தைத் தரும்; ஆனால் அதிகாரம் அதை மதிக்காது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஆலோசனை</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">The Royal Family</span><span class="lang-ta">அரச குடும்பம்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Mayasura <small>(Architect / Father-in-law)</small></span>
+                            <span class="lang-ta">மயன் (மயாசுரன்) <small>(சிற்பி / மாமனார்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Demon of Illusion</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Mandodari's father and the architect of the Asuras.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Skill is respected; but lineage does not guarantee righteous conduct.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Craftsmanship</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மாயை அரக்கன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>மண்டோதரியின் தந்தை மற்றும் அசுரர்களின் சிற்பி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>திறமை மதிக்கப்படும்; ஆனால் குலம் ஒழுக்கத்தை உத்திரவாதப்படுத்தாது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>கலைத்திறன்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details></details><details><summary><span class="lang-en">Mithila (Kingdom of Videha)</span><span class="lang-ta">மிதிலை (விதேக நாடு)</span></summary><details><summary><span class="lang-en">The Royal Family</span><span class="lang-ta">அரச குடும்பம்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Janaka <small>(King of Mithila)</small></span>
+                            <span class="lang-ta">ஜனகர் <small>(மிதிலை மன்னர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Progenitor / Father</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Sita's father; known as a Rajarishi.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>One can live in the world detached.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Detachment</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>தந்தை / உயிரளிப்பவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சீதையின் தந்தை. 'ராஜரிஷி' என்று அழைக்கப்பட்டவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உலகியல் கடமைகளைச் செய்துகொண்டே பற்றற்று இருக்க முடியும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>பற்றற்ற நிலை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Kushadhwaja <small>(King of Sankashya)</small></span>
+                            <span class="lang-ta">குசத்துவாஜன் <small>(சாங்காசிய மன்னன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>One with grass-flag</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Janaka's younger brother and father of Mandavi and Shrutakirti.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Brotherly love and unity strengthen the kingdom.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Unity</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>தர்ப்பை கொடி உடையவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ஜனகரின் தம்பி; மாண்டவி மற்றும் ஸ்ருதகீர்த்தியின் தந்தை.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>சகோதர ஒற்றுமை நாட்டை வலிமைப்படுத்தும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஒற்றுமை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sunayana <small>(Queen of Mithila)</small></span>
+                            <span class="lang-ta">சுநயனா <small>(மிதிலை ராணி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Beautiful Eyes</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Wife of Janaka and mother of Sita; raised her with humility.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>The strength of a mother builds the character of the child.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Maternal Love</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>அழகிய கண்கள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ஜனகரின் மனைவி; சீதையை பணிவோடும் அன்போடும் வளர்த்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தாயின் வலிமையே குழந்தையின் ஒழுக்கத்தை உருவாக்குகிறது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>தாய்மை</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Priests & Sages</span><span class="lang-ta">குருமார்கள் & முனிவர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Shatananda <small>(Royal Priest)</small></span>
+                            <span class="lang-ta">சதானந்தர் <small>(ராஜ குரு)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Hundred Joys</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Son of Ahalya and Gautama; Janaka's priest.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Rejoicing in the redemption of one's parents is a filial duty.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Joy & Duty</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>நூறு மகிழ்ச்சிகள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அகலிகை மற்றும் கௌதமரின் மகன்; ஜனகரின் குரு.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>பெற்றோரின் மீட்சியில் மகிழ்வது பிள்ளையின் கடமை.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>மகிழ்ச்சி & கடமை</div>
+                            </div>
+                        </div>
+                    </details>
+            </details></details><details><summary><span class="lang-en">Tapovanam (Sages & Divine Encounters)</span><span class="lang-ta">தபோவனம் (முனிவர்கள் & தெய்வீக சந்திப்புகள்)</span></summary><details><summary><span class="lang-en">Divine Beings</span><span class="lang-ta">தெய்வீக உயிரினங்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Jatayu <small>(King of Vultures)</small></span>
+                            <span class="lang-ta">ஜடாயு <small>(கழுகுகளின் அரசன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Possessing matted hair</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Sacrificed his life fighting Ravana.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Fight for the right cause even if defeat is certain.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Self-Sacrifice</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>சடை முடி கொண்டவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராவணனுடன் போரிட்டு உயிர் தியாகம் செய்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தோல்வி உறுதி என்றாலும் தர்மத்துக்காக போராடு.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>சுய தியாகம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Sampati <small>(Vulture King)</small></span>
+                            <span class="lang-ta">சம்பாதி <small>(கழுகு அரசன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Flying Together / Prosperity</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Jatayu's brother who lost wings shielding him; told Hanuman where Sita was.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Even with physical limitations; one can serve a great cause.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Guidance</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>உடன் பறப்பவர் / செல்வம்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ஜடாயுவை காக்க சிறகுகளை இழந்தவர்; சீதை இருக்கும் இடத்தைக் கூறியவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உடல் குறைபாடு இருந்தாலும் பெரிய காரியத்திற்கு உதவ முடியும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>வழிகாட்டுதல்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Sages (Rishis)</span><span class="lang-ta">ரிஷிகள் (முனிவர்கள்)</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Vishvamitra <small>(Brahmarishi)</small></span>
+                            <span class="lang-ta">விஸ்வாமித்திரர் <small>(பிரம்மரிஷி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Friend of the Universe</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Took Rama to the forest to protect his yagna.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Persistence transforms a warrior into a sage.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Determination</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>உலகின் நண்பன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>தன் யாகத்தை காக்க ராமரை காட்டிற்கு அழைத்துச் சென்றவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>விடாமுயற்சி ஒரு வீரனை முனிவராக்கும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>உறுதிப்பாடு</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Ahalya <small>(Sage's Wife)</small></span>
+                            <span class="lang-ta">அகலிகை <small>(முனிவரின் மனைவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Un-ploughed (Flawless)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Liberated from a curse by the dust of Rama's feet.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Divine grace can redeem any past mistake.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Redemption</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>குறையற்றவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமரின் பாத தூசியால் சாப விமோசனம் பெற்றவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>இறைவனின் அருள் எத்தகைய பிழையையும் போக்கும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>மீட்சி</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Agastya <small>(Sage)</small></span>
+                            <span class="lang-ta">அகத்தியர் <small>(முனிவர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Mountain Thrower</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Gave Rama the Aditya Hridayam mantra.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Knowledge is the ultimate weapon.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Wisdom</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>மலையை அடக்கியவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமருக்கு ஆதித்ய ஹிருதயத்தை உபதேசித்தவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>அறிவே சிறந்த ஆயுதம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஞானம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Bharadwaja <small>(Maharishi)</small></span>
+                            <span class="lang-ta">பரத்வாஜர் <small>(மகரிஷி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>One bearing strength / nourishment</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Hosted Rama at Prayag and guided him to Chitrakoot.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Hospitality (Atithi Devo Bhava) is a supreme duty of a householder.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Hospitality</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பலம் / ஊட்டம் தாங்குபவர்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>பிரயாகையில் ராமருக்கு விருந்தளித்து சித்திரகூடத்திற்கு வழி காட்டியவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>விருந்தோம்பல் ஒரு இல்லறத்தானின் மிக உயர்ந்த கடமை.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>விருந்தோம்பல்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Valmiki <small>(The Author / Adi Kavi)</small></span>
+                            <span class="lang-ta">வால்மீகி <small>(நூலாசிரியர் / ஆதி கவி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Born from an anthill</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The sage who composed the Ramayana and sheltered Sita; taught Lava and Kusha.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Great sorrow (Shoka) can be transformed into great poetry (Sloka).</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Creativity & Compassion</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>பன்முகத்தன்மை கொண்டவர் (புற்றிலிருந்து பிறந்தவர்)</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமாயணத்தை இயற்றியவர்; சீதைக்கு அடைக்கலம் தந்து லவ குசர்களுக்கு பாடம் புகட்டியவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>பெருந்துயரமும் உயர்ந்த கவிதையாக (ஸ்லோகம்) மாற முடியும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>படைப்பாற்றல் & கருணை</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Friends & Allies</span><span class="lang-ta">நண்பர்கள் & தோழர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Guha <small>(King of Nishadas)</small></span>
+                            <span class="lang-ta">குகன் <small>(வேடர்கோன் (நிஷாத மன்னன்))</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Dweller in the Cave (Heart)</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Tribal king who ferried Rama across the Ganges.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>True friendship transcends caste and status.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Brotherhood</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>குகையில் (இதயத்தில்) உறைபவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமரை கங்கையை கடக்க உதவிய பழங்குடி மன்னன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>உண்மையான நட்பு சாதி அந்தஸ்துக்கு அப்பாற்பட்டது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>சகோதரத்துவம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Mainaka <small>(Golden Mountain)</small></span>
+                            <span class="lang-ta">மைநாகம் <small>(தங்க மலை)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Son of Himavan</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The mountain that rose from the sea to offer Hanuman rest.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Offer help to those on a divine mission.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Hospitality / Gratitude</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>ஹிமவானின் மகன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>அனுமனுக்கு ஓய்வு அளிக்க கடலிலிருந்து எழுந்த மலை.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தெய்வீக பணியில் செல்பவர்களுக்கு உதவி செய்தல்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>விருந்தோம்பல் / நன்றி</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Devotees</span><span class="lang-ta">பக்தர்கள்</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Shravan Kumar <small>(Devoted Son)</small></span>
+                            <span class="lang-ta">சிரவண குமாரன் <small>(பெற்றோரை பேணுபவர்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Flowing / Hearing</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Blind parents' son accidentally killed by Dasharatha; leading to the curse.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Service to parents (Matru-Pitru Bhakti) is the highest duty.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Filial Piety</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>ஒழுகுதல் / கேட்டல்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>தசரதனால் தவறுதலாக கொல்லப்பட்டவர்; இதுவே தசரதரின் சாபத்திற்கு காரணமானது.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>பெற்றோருக்குச் செய்யும் சேவையே மிக உயர்ந்த கடமை.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>பெற்றோர் பக்தி</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Shabari <small>(Tribal Devotee)</small></span>
+                            <span class="lang-ta">சபரி <small>(பழங்குடி பக்தை)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Daughter of Sabara</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Elderly ascetic who waited years to offer Rama tasted berries.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>God values pure love (Bhakti) over caste or rituals.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Devotion (Bhakti)</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>சபர இனத்தவள்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>ராமருக்காக காத்திருந்து; சுவைத்த பழங்களை கொடுத்த மூதாட்டி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>இறைவன் சடங்குகளை விட தூய அன்பையே மதிக்கிறார்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>பக்தி</div>
+                            </div>
+                        </div>
+                    </details>
+            </details><details><summary><span class="lang-en">Early Adversaries (Demons)</span><span class="lang-ta">தொடக்க கால எதிரிகள் (அரக்கர்கள்)</span></summary>
+                    <details>
+                        <summary>
+                            <span class="lang-en">Kabandha <small>(Headless Demon)</small></span>
+                            <span class="lang-ta">கபந்தன் <small>(தலையற்ற அரக்கன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Headless Trunk</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Cursed celestial who directed Rama to Sugriva after being liberated.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Suffering can be a purifier that leads to right guidance.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Redemption</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>தலையற்ற உடல்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>சாப விமோசனம் பெற்ற பின் ராமரை சுக்ரீவனிடம் வழிநடத்தியவர்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>துன்பம் ஒருவரை நல்வழிக்கு இட்டுச் செல்லும் தூய்மைப்படுத்தியாக அமையும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>மீட்சி</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Tataka (Tadaka) <small>(Demoness)</small></span>
+                            <span class="lang-ta">தாடகை <small>(அரக்கி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Slope / Shore</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>The first obstacle Rama removed to protect Vishvamitra's yagna.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Evil has no gender; dharma requires removing all threats to righteousness.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Obstruction</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கரை / சரிவு</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>விஸ்வாமித்திரரின் யாகத்தை காக்க ராமர் அழித்த முதல் தடை.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>தீமைக்கு பாலினம் இல்லை; தர்மத்தை காக்க எதையும் அழிக்கலாம்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: தடை</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Subahu <small>(Demon)</small></span>
+                            <span class="lang-ta">சுபாகு <small>(அரக்கன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Strong-Armed</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Tataka's son who polluted the yagna; killed by Rama.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Persistent sins that pollute sacred actions must be destroyed.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Negative: Pollution</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>வலிமையான கைகளை உடையவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>யாகத்தை அசுத்தப்படுத்திய தாடகையின் மகன்; ராமரால் கொல்லப்பட்டவன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>புனிதமான செயல்களை கெடுக்கும் தீய பழக்கங்களை அழிக்க வேண்டும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>எதிர்மறை: அசுத்தம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Khara <small>(Demon Lord)</small></span>
+                            <span class="lang-ta">கரன் <small>(அரக்கர் தலைவன்)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>Harsh / Rough</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Ravana's cousin who attacked Rama in Dandaka forest with 14000 demons.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Arrogance in numbers cannot defeat the power of truth.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Aggression</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கடுமையானவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>தண்டகாரண்யத்தில் 14000 அரக்கர்களுடன் ராமரை தாக்கிய ராவணனின் சகோதரன்.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>எண்ணிக்கை பலம் உண்மையின் வலிமையை வெல்ல முடியாது.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>ஆக்ரோஷம்</div>
+                            </div>
+                        </div>
+                    </details>
+            
+                    <details>
+                        <summary>
+                            <span class="lang-en">Dushana <small>(Demon General)</small></span>
+                            <span class="lang-ta">தூஷணன் <small>(அரக்கர் தளபதி)</small></span>
+                        </summary>
+                        <div class="char-content">
+                            <div class="lang-en">
+                                <div class="info-box box-meaning"><span class="inline-label">Meaning:</span>One who contaminates</div>
+                                <div class="info-box box-context"><span class="inline-label">Context:</span>Khara's general who fought alongside him.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">Lesson:</span>Blindly following an unrighteous leader leads to shared destruction.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">Virtue:</span>Loyalty to Adharma</div>
+                            </div>
+                            <div class="lang-ta">
+                                <div class="info-box box-meaning"><span class="inline-label">அர்த்தம்:</span>கெடுப்பவன்</div>
+                                <div class="info-box box-context"><span class="inline-label">சூழல்:</span>கரனுடன் சேர்ந்து போரிட்ட தளபதி.</div>
+                                <div class="info-box box-lesson"><span class="inline-label">பாடம்:</span>அதர்ம வழியில் செல்லும் தலைவனை பின்பற்றுவது அழிவைத் தரும்.</div>
+                                <div class="info-box box-virtue"><span class="inline-label">குணம்:</span>அதர்ம விசுவாசம்</div>
+                            </div>
+                        </div>
+                    </details>
+            </details></details>
+    </div>
+    
+    <script>
+        /* LANGUAGE SWITCHER */
+        function setLang(lang) {
+            setTimeout(function() {
+                if (lang === 'ta') {
+                    document.body.classList.add('show-ta');
+                    document.body.classList.remove('show-en');
+                } else {
+                    document.body.classList.add('show-en');
+                    document.body.classList.remove('show-ta');
+                }
+                
+                var btnEn = document.getElementById('btn-en');
+                var btnTa = document.getElementById('btn-ta');
+                
+                if (lang === 'en') {
+                    if(btnEn) btnEn.classList.add('active');
+                    if(btnTa) btnTa.classList.remove('active');
+                } else {
+                    if(btnTa) btnTa.classList.add('active');
+                    if(btnEn) btnEn.classList.remove('active');
+                }
+            }, 10);
+        }
+
+        /* SAFE LOOP LOGIC */
+        var currentTask = null; 
+
+        function processDetails(shouldOpen) {
+            if (currentTask) {
+                clearTimeout(currentTask);
+            }
+            
+            var nodeList = document.querySelectorAll('details');
+            var details = [];
+            for(var k=0; k<nodeList.length; k++) { details.push(nodeList[k]); }
+            
+            var total = details.length;
+            var i = 0;
+            var batchSize = 30;
+
+            function nextBatch() {
+                var limit = i + batchSize;
+                if (limit > total) limit = total;
+                
+                for (; i < limit; i++) {
+                    details[i].open = shouldOpen;
+                }
+
+                if (i < total) {
+                    currentTask = setTimeout(nextBatch, 5); 
+                } else {
+                    currentTask = null;
+                }
+            }
+
+            nextBatch();
+        }
+
+        function safeExpandAll() {
+            processDetails(true);
+        }
+
+        function safeCollapseAll() {
+            processDetails(false);
+        }
+    </script>
+</body>
+</html>

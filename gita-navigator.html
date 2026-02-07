@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Gita Navigator</title>
+    <style>
+        :root {
+            --primary: #FF9933;
+            --secondary: #1a237e;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --link: #d32f2f;
+            --breakdown-bg: #f9fbe7;
+            --verse-bg: #e3f2fd;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* --- CSS LOGIC ENGINE (NO JS) --- */
+        input[name="lang-toggle"] { display: none; }
+
+        /* Default (English) */
+        #radio-en:checked ~ .timeline .ta-text { display: none !important; }
+        #radio-en:checked ~ .timeline .en-text { display: inline !important; }
+        #radio-en:checked ~ .header .btn-en { background: var(--secondary); color: white; border-color: var(--secondary); }
+        
+        /* Tamil */
+        #radio-ta:checked ~ .timeline .en-text { display: none !important; }
+        #radio-ta:checked ~ .timeline .ta-text { display: inline !important; }
+        #radio-ta:checked ~ .header .btn-ta { background: var(--secondary); color: white; border-color: var(--secondary); }
+        /* -------------------------------- */
+
+        .header {
+            background: var(--card-bg);
+            padding: 12px 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .title { font-weight: 800; font-size: 1rem; color: var(--secondary); text-transform: uppercase; }
+
+        .lang-switch { display: flex; gap: 8px; }
+        
+        .lang-label {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: transparent;
+            color: #666;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .timeline { max-width: 600px; margin: 15px auto; padding: 0 10px; padding-bottom: 50px; }
+
+        details.chapter-card {
+            background: var(--card-bg);
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border-left: 4px solid var(--primary);
+        }
+
+        summary {
+            padding: 12px 15px;
+            list-style: none;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        summary::-webkit-details-marker { display: none; }
+        summary:focus { outline: none; background-color: #fdfdfd; }
+
+        .card-header-text { font-size: 0.95rem; line-height: 1.3; }
+        .card-title { font-weight: 700; color: var(--secondary); }
+        .card-subtitle { font-size: 0.85rem; color: #666; font-style: italic; margin-left: 4px; }
+        
+        .arrow-icon {
+            color: var(--primary);
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        details[open] .arrow-icon { transform: rotate(180deg); }
+
+        .card-content { padding: 15px; background: #fffbf2; border-top: 1px solid #f0f0f0; }
+
+        .connection-label {
+            font-size: 0.7rem; font-weight: 800; color: #d87d1f; text-transform: uppercase; display: block; margin-bottom: 4px;
+        }
+        .link-text { font-size: 0.9rem; margin-bottom: 12px; color: #333; }
+        .link-text a { color: var(--link); text-decoration: none; font-weight: 600; border-bottom: 1px dotted var(--link); }
+
+        .breakdown-box {
+            background: var(--breakdown-bg); border-left: 4px solid #7cb342;
+            padding: 10px; border-radius: 4px; margin-bottom: 12px; font-size: 0.85rem; color: #33691e;
+        }
+        .breakdown-title { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: #558b2f; display: block; margin-bottom: 4px; }
+        .breakdown-list { margin: 0; padding-left: 18px; }
+
+        .verses-box {
+            background: var(--verse-bg); border-left: 4px solid #1565c0;
+            padding: 10px; border-radius: 4px; font-size: 0.85rem; color: #1565c0;
+        }
+        .verses-title { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: #1565c0; display: block; margin-bottom: 4px; }
+        .verse-list { padding: 0; margin: 0; list-style: none; }
+        .verse-item { margin-bottom: 5px; line-height: 1.4; }
+        .verse-link { font-weight: 700; color: #d32f2f; text-decoration: none; margin-right: 4px; }
+
+        .section-marker {
+            margin: 20px 0 10px 5px;
+            font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--section-header); background: #eceff1; padding: 4px 8px;
+            border-radius: 4px; display: inline-block; border-left: 3px solid #546e7a;
+        }
+        
+        [lang="ta"] { font-family: 'Nirmala UI', 'Latha', sans-serif; }
+        .footer { text-align: center; padding: 20px; color: #999; font-size: 0.7rem; background: #eee; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <input type="radio" name="lang-toggle" id="radio-en" checked>
+    <input type="radio" name="lang-toggle" id="radio-ta">
+
+    <div class="header">
+        <div class="title">The Gita Navigator</div>
+        <div class="lang-switch">
+            <label for="radio-en" class="lang-label btn-en">English</label>
+            <label for="radio-ta" class="lang-label btn-ta">தமிழ்</label>
+        </div>
+    </div>
+
+    <div class="timeline">
+
+        <div class="section-marker">
+            <span class="en-text">Karma Yoga (Action)</span>
+            <span class="ta-text">கர்ம யோகம் (செயல்)</span>
+        </div>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">1. Observing the Armies</span><span class="ta-text">1. படைகளை கவனித்தல்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— The Problem</span><span class="ta-text">— பிரச்சனை</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Context: Arjuna offers 5 arguments not to fight: Compassion, Enjoyment, Sinful reactions, Family traditions, and Indecision. He sits down, overwhelmed (<a href="https://vedabase.io/en/library/bg/1/46/">1.46</a>).</span>
+                    <span class="ta-text">சூழல்: அர்ஜுனன் போரிடாமல் இருக்க 5 காரணங்களை முன்வைக்கிறான். அவன் தோல்வியை ஒப்புக்கொண்டு அமருகிறான் (<a href="https://vedabase.io/en/library/bg/1/46/">1.46</a>).</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-27: The Situation</span><span class="ta-text">1-27: சூழ்நிலை</span></li>
+                        <li><span class="en-text">28-46: Arjuna's Lamentation</span><span class="ta-text">28-46: அர்ஜுனனின் புலம்பல்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/1/1/" class="verse-link">1.1</a><span class="en-text">: Dhritarashtra inquires about the battle.</span><span class="ta-text">: திருதராஷ்டிரன் போர்க்களம் பற்றி விசாரிக்கிறான்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">2. Contents Summarized</span><span class="ta-text">2. கீதையின் சாராம்சம்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Solution Begins</span><span class="ta-text">— தீர்வு ஆரம்பம்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Arjuna admits weakness and surrenders in <a href="https://vedabase.io/en/library/bg/2/7/">2.7</a>. Only then does Krishna become the Guru and explain the soul (Sankhya) and Duty.</span>
+                    <span class="ta-text">தொடர்பு: அர்ஜுனன் <a href="https://vedabase.io/en/library/bg/2/7/">2.7</a>-ல் சரணடைகிறான். அதன் பிறகே கிருஷ்ணர் குருவாக மாறி ஆத்ம ஞானத்தை போதிக்கிறார்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-10: Surrender</span><span class="ta-text">1-10: சரணாகதி</span></li>
+                        <li><span class="en-text">11-30: Jnana (Soul)</span><span class="ta-text">11-30: ஞானம் (ஆன்மா)</span></li>
+                        <li><span class="en-text">31-38: Karma-kanda</span><span class="ta-text">31-38: கர்ம காண்டம்</span></li>
+                        <li><span class="en-text">39-53: Buddhi-Yoga</span><span class="ta-text">39-53: புத்தி யோகம்</span></li>
+                        <li><span class="en-text">54-72: Sthita-prajna</span><span class="ta-text">54-72: ஸ்தித பிரக்ஞன்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/2/7/" class="verse-link">2.7</a><span class="en-text">: I am Your disciple, instruct me.</span><span class="ta-text">: நான் உமது சீடன், எனக்கு போதிப்பீராக.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/2/13/" class="verse-link">2.13</a><span class="en-text">: Soul passes from boyhood to youth.</span><span class="ta-text">: ஆன்மா உடல் மாற்றம் அடைகிறது.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/2/20/" class="verse-link">2.20</a><span class="en-text">: Soul is unborn and eternal.</span><span class="ta-text">: ஆன்மா பிறப்பற்றது, நித்தியமானது.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/2/41/" class="verse-link">2.41</a><span class="en-text">: Resolute intelligence is one.</span><span class="ta-text">: உறுதியான புத்தி ஒன்றையே நோக்கியிருக்கும்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/2/44/" class="verse-link">2.44</a><span class="en-text">: Attached to sense enjoyment.</span><span class="ta-text">: புலன் இன்பத்தில் பற்றுதல்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">3. Karma-yoga</span><span class="ta-text">3. கர்ம யோகம்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Lust is the Enemy</span><span class="ta-text">— காமமே எதிரி</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: In <a href="https://vedabase.io/en/library/bg/2/49/">2.49</a>, Krishna praised 'Intelligence'. Arjuna asks: 'If Intelligence is better, why force me to fight?' (<a href="https://vedabase.io/en/library/bg/3/1/">3.1</a>). Krishna explains Work without attachment.</span>
+                    <span class="ta-text">தொடர்பு: 'அறிவே சிறந்தது என்றால், ஏன் என்னை போரிட சொல்கிறீர்கள்?' (<a href="https://vedabase.io/en/library/bg/3/1/">3.1</a>).</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-9: Renunciation vs Work</span><span class="ta-text">1-9: துறவு vs செயல்</span></li>
+                        <li><span class="en-text">10-16: Karma-Kanda</span><span class="ta-text">10-16: கர்ம காண்டம்</span></li>
+                        <li><span class="en-text">17-35: Setting the Example</span><span class="ta-text">17-35: முன்மாதிரியாக இருத்தல்</span></li>
+                        <li><span class="en-text">36-43: Conquering Lust</span><span class="ta-text">36-43: காமத்தை வெல்லுதல்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/3/9/" class="verse-link">3.9</a><span class="en-text">: Work done as sacrifice (Yajna).</span><span class="ta-text">: யாகத்திற்காக செய்யப்படும் செயல்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/3/27/" class="verse-link">3.27</a><span class="en-text">: Doer is the modes of nature.</span><span class="ta-text">: இயற்கையின் குணங்களே செய்பவன்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/3/37/" class="verse-link">3.37</a><span class="en-text">: Lust and anger are the enemies.</span><span class="ta-text">: காமமும் குரோதமுமே எதிரிகள்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">4. Transcendental Knowledge</span><span class="ta-text">4. ஞான யோகம்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— History</span><span class="ta-text">— வரலாறு</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Ch 3 ended saying 'Conquer Lust'. Ch 4 explains the history of this yoga and the specific knowledge required to burn reactions to ashes.</span>
+                    <span class="ta-text">தொடர்பு: காமத்தை வெல்ல வேண்டும் என்று அத் 3 முடிந்தது. அத் 4 வினைகளை எரிக்கும் ஞானத்தை விளக்குகிறது.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-10: History</span><span class="ta-text">1-10: வரலாறு</span></li>
+                        <li><span class="en-text">11-15: Krishna's Appearance</span><span class="ta-text">11-15: அவதாரம்</span></li>
+                        <li><span class="en-text">16-24: Karma/Akarma</span><span class="ta-text">16-24: கர்ம/அகர்ம</span></li>
+                        <li><span class="en-text">34-42: Guru & Knowledge</span><span class="ta-text">34-42: குரு & அறிவு</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/4/1/" class="verse-link">4.1</a><span class="en-text">: Parampara (Disciplic succession).</span><span class="ta-text">: குரு பரம்பரை.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/4/7/" class="verse-link">4.7</a><span class="en-text">: Yada yada hi dharmasya.</span><span class="ta-text">: யதா யதா ஹி தர்மஸ்ய.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/4/34/" class="verse-link">4.34</a><span class="en-text">: Approach a spiritual master.</span><span class="ta-text">: குருவை அணுக வேண்டும்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">5. Karma-yoga</span><span class="ta-text">5. கர்ம யோகம் (துறவு)</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Action in K.C.</span><span class="ta-text">— துறவு vs செயல்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: In <a href="https://vedabase.io/en/library/bg/4/33/">4.33</a> Krishna praised Knowledge, but in <a href="https://vedabase.io/en/library/bg/4/42/">4.42</a> He said 'Fight'. Arjuna asks: 'Renunciation or Work - which is better?' (<a href="https://vedabase.io/en/library/bg/5/1/">5.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: அர்ஜுனன் குழப்பம்: 'துறவா? செயலா? எது சிறந்தது?' (<a href="https://vedabase.io/en/library/bg/5/1/">5.1</a>).</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-6: Renounce vs Work</span><span class="ta-text">1-6: துறவு vs செயல்</span></li>
+                        <li><span class="en-text">7-12: Working in Devotion</span><span class="ta-text">7-12: பக்தியுடன் செயல்</span></li>
+                        <li><span class="en-text">13-16: City of 9 Gates</span><span class="ta-text">13-16: 9 வாசல்கள் கொண்ட நகரம்</span></li>
+                        <li><span class="en-text">27-29: Peace Formula</span><span class="ta-text">27-29: அமைதிக்கான சூத்திரம்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/5/18/" class="verse-link">5.18</a><span class="en-text">: Sage sees equally.</span><span class="ta-text">: பண்டிதர்கள் சமமாக பார்கிறார்கள்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/5/29/" class="verse-link">5.29</a><span class="en-text">: Peace Formula.</span><span class="ta-text">: அமைதிக்கான சூத்திரம்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">6. Dhyana-yoga</span><span class="ta-text">6. தியான யோகம்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Astanga Yoga</span><span class="ta-text">— அஷ்டாங்க யோகம்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: In <a href="https://vedabase.io/en/library/bg/5/27/">5.27</a>, Krishna gave a 'preview' of meditation. Ch 6 explains the mechanical yoga system, but concludes Bhakti is best (<a href="https://vedabase.io/en/library/bg/6/47/">6.47</a>).</span>
+                    <span class="ta-text">தொடர்பு: அத் 6 தியான முறையை விளக்குகிறது, ஆனால் பக்தியே சிறந்தது என்று முடிக்கிறது (<a href="https://vedabase.io/en/library/bg/6/47/">6.47</a>).</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-9: Ruruksu vs Arudha</span><span class="ta-text">1-9: ருருக்ஷு vs ஆரூಢ</span></li>
+                        <li><span class="en-text">10-32: Meditation Process</span><span class="ta-text">10-32: தியான முறை</span></li>
+                        <li><span class="en-text">33-36: Mind Control</span><span class="ta-text">33-36: மனக் கட்டுப்பாடு</span></li>
+                        <li><span class="en-text">46-47: The Best Yogi</span><span class="ta-text">46-47: சிறந்த யோகி</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/6/34/" class="verse-link">6.34</a><span class="en-text">: Mind is restless.</span><span class="ta-text">: மனம் சஞ்சலமானது.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/6/47/" class="verse-link">6.47</a><span class="en-text">: Yogi who worships Me is best.</span><span class="ta-text">: என்னை வழிபடும் யோகியே சிறந்தவன்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <div class="section-marker">
+            <span class="en-text">Bhakti Yoga (Devotion)</span>
+            <span class="ta-text">பக்தி யோகம் (அன்பு)</span>
+        </div>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">7. Knowledge of Absolute</span><span class="ta-text">7. முழுமுதற் கடவுளை அறிதல்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Who is Krishna?</span><span class="ta-text">— கிருஷ்ணர் யார்?</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Since the best Yogi worships Krishna (<a href="https://vedabase.io/en/library/bg/6/47/">6.47</a>), Ch 7 explains HOW to become that 'Best Yogi' by knowing Krishna fully (<a href="https://vedabase.io/en/library/bg/7/1/">7.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: சிறந்த யோகியாக மாறுவது எப்படி என்பதை அத் 7 விளக்குகிறது (<a href="https://vedabase.io/en/library/bg/7/1/">7.1</a>).</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-12: Knowing Krishna</span><span class="ta-text">1-12: கிருஷ்ணரை அறிதல்</span></li>
+                        <li><span class="en-text">13-19: 4 Types of Surrender</span><span class="ta-text">13-19: 4 வகை சரணாகதி</span></li>
+                        <li><span class="en-text">20-25: Demigods</span><span class="ta-text">20-25: தேவதைகள்</span></li>
+                        <li><span class="en-text">26-30: Brahman/Paramatma</span><span class="ta-text">26-30: பிரம்மம்/பரமாத்மா</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/7/7/" class="verse-link">7.7</a><span class="en-text">: No truth superior to Me.</span><span class="ta-text">: என்னை விட உயர்ந்த உண்மை இல்லை.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/7/14/" class="verse-link">7.14</a><span class="en-text">: Difficult to overcome My Maya.</span><span class="ta-text">: என் மாயையை வெல்வது கடினம்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/7/19/" class="verse-link">7.19</a><span class="en-text">: Vasudeva is everything.</span><span class="ta-text">: வாசுதேவனே எல்லாம்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">8. Attaining the Supreme</span><span class="ta-text">8. பரம்பொருளை அடைதல்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Defining Terms</span><span class="ta-text">— கேள்விகள்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: At the end of Ch 7, Krishna used terms like Brahman and Adhyatma. Ch 8 begins with Arjuna asking for the definitions of these terms (<a href="https://vedabase.io/en/library/bg/8/1/">8.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: பிரம்மம், அத்யாத்மம் போன்ற வார்த்தைகளின் விளக்கத்தை அர்ஜுனன் கேட்கிறான்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-4: Questions</span><span class="ta-text">1-4: கேள்விகள்</span></li>
+                        <li><span class="en-text">5-8: Remembering at Death</span><span class="ta-text">5-8: மரணம்</span></li>
+                        <li><span class="en-text">9-22: Yoga-Mishra Bhakti</span><span class="ta-text">9-22: யோக மிஸ்ர பக்தி</span></li>
+                        <li><span class="en-text">23-28: Light/Dark Paths</span><span class="ta-text">23-28: சுக்ல/கிருஷ்ண பக்ஷம்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/8/5/" class="verse-link">8.5</a><span class="en-text">: Remembering Me at death.</span><span class="ta-text">: மரணத்தின் போது என்னை நினைத்தல்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/8/7/" class="verse-link">8.7</a><span class="en-text">: Tasmat sarvesu kalesu (Remember always).</span><span class="ta-text">: தஸ்மாத் சர்வேஷு காலேஷு (எப்போதும் நினை).</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">9. Confidential Knowledge</span><span class="ta-text">9. மிக ரகசியமான அறிவு</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Raja Vidya</span><span class="ta-text">— ராஜ வித்யா</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Ch 8 described a difficult path (waiting for the right time to die). Ch 9 gives the 'King of Knowledge' which is easy, joyful, and immediate (<a href="https://vedabase.io/en/library/bg/9/2/">9.2</a>).</span>
+                    <span class="ta-text">தொடர்பு: அத் 9-ல் மிக எளிமையான, மகிழ்ச்சியான 'ராஜ வித்யா' (சுத்த பக்தி) கூறப்படுகிறது (<a href="https://vedabase.io/en/library/bg/9/2/">9.2</a>).</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-3: Glories</span><span class="ta-text">1-3: பெருமை</span></li>
+                        <li><span class="en-text">4-10: Aishwarya Jnana</span><span class="ta-text">4-10: ஐஸ்வர்ய ஞானம்</span></li>
+                        <li><span class="en-text">11-15: Fools vs Mahatmas</span><span class="ta-text">11-15: மூடர்கள் vs மகாத்மாக்கள்</span></li>
+                        <li><span class="en-text">20-34: Kevala/Ananya Bhakti</span><span class="ta-text">20-34: கேவல பக்தி</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/9/2/" class="verse-link">9.2</a><span class="en-text">: King of knowledge, joyful.</span><span class="ta-text">: அறிவின் அரசன், மகிழ்ச்சியானது.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/9/13/" class="verse-link">9.13</a><span class="en-text">: Mahatmas worship Me.</span><span class="ta-text">: மகாத்மாக்கள் என்னை வழிபடுகிறார்கள்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/9/26/" class="verse-link">9.26</a><span class="en-text">: Leaf, flower, fruit, water.</span><span class="ta-text">: பத்ரம் புஷ்பம் பலம் தோயம்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/9/27/" class="verse-link">9.27</a><span class="en-text">: Do everything as offering.</span><span class="ta-text">: அனைத்தையும் அர்ப்பணமாக செய்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/9/34/" class="verse-link">9.34</a><span class="en-text">: Man-mana bhava (Think of Me).</span><span class="ta-text">: மன்-மனா பவ (என்னை நினை).</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">10. Opulence of Absolute</span><span class="ta-text">10. இறைவனின் வைபவங்கள்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Vibhuti Yoga</span><span class="ta-text">— விபூதி யோகம்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: In Ch 9, Krishna established He is Supreme. Ch 10 describes His specific 'Opulences' so Arjuna can see Him everywhere (<a href="https://vedabase.io/en/library/bg/10/1/">10.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: அவரை நினைவில் கொள்ள உதவும் வகையில், தனது 'வைபவங்களை' அத் 10-ல் விவரிக்கிறார்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">8-11: Chatur Sloki</span><span class="ta-text">8-11: சது ஸ்லோகி</span></li>
+                        <li><span class="en-text">12-18: Arjuna Accepts</span><span class="ta-text">12-18: அர்ஜுனன் ஏற்கிறான்</span></li>
+                        <li><span class="en-text">19-42: Krishna's Vibhutis</span><span class="ta-text">19-42: கிருஷ்ணரின் விபூதிகள்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/10/8/" class="verse-link">10.8</a><span class="en-text">: I am the source of all.</span><span class="ta-text">: நானே அனைத்திற்கும் மூலம்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/10/10/" class="verse-link">10.10</a><span class="en-text">: I give the understanding (Buddhi-yogam).</span><span class="ta-text">: நான் அறிவை அளிக்கிறேன்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">11. The Universal Form</span><span class="ta-text">11. விஸ்வரூப தரிசனம்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Seeing is Believing</span><span class="ta-text">— நேரில் காணுதல்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Arjuna heard about Krishna's greatness in Ch 10. Now, he requests to SEE it (<a href="https://vedabase.io/en/library/bg/11/3/">11.3</a>). Krishna reveals the Universal Form.</span>
+                    <span class="ta-text">தொடர்பு: அர்ஜுனன் கிருஷ்ணரின் பெருமைகளை நேரில் காண விரும்புகிறான்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">9-34: Visvarupa</span><span class="ta-text">9-34: விஸ்வரூபம்</span></li>
+                        <li><span class="en-text">35-46: Prayers</span><span class="ta-text">35-46: பிரார்த்தனைகள்</span></li>
+                        <li><span class="en-text">47-55: Two-Handed Form</span><span class="ta-text">47-55: இரு கை உருவம்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/11/54/" class="verse-link">11.54</a><span class="en-text">: Only by undivided devotion can I be seen.</span><span class="ta-text">: பக்தியால் மட்டுமே என்னை காண முடியும்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">12. Devotional Service</span><span class="ta-text">12. பக்தித் தொண்டு</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Person vs Impersonal</span><span class="ta-text">— உருவம் vs அருவம்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Arjuna saw the Universal Form (Impersonal) and the Person Krishna. He asks: 'Who is more perfect? The one who worships the Unmanifest or You?' (<a href="https://vedabase.io/en/library/bg/12/1/">12.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: 'யார் சிறந்தவர்? அருவத்தை வழிபடுபவரா அல்லது உங்களை வழிபடுபவரா?'</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-7: Personal vs Impersonal</span><span class="ta-text">1-7: உருவம் vs அருவம்</span></li>
+                        <li><span class="en-text">8-12: Hierarchy of Practice</span><span class="ta-text">8-12: பயிற்சியின் படிநிலைகள்</span></li>
+                        <li><span class="en-text">13-20: Qualities of a Devotee</span><span class="ta-text">13-20: பக்தனின் குணங்கள்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/12/5/" class="verse-link">12.5</a><span class="en-text">: Difficult for those attached to impersonal.</span><span class="ta-text">: அருவத்தில் பற்றுள்ளவருக்கு கடினம்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <div class="section-marker">
+            <span class="en-text">Jnana Yoga (Knowledge)</span>
+            <span class="ta-text">ஞான யோகம் (அறிவு)</span>
+        </div>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">13. Nature, Enjoyer</span><span class="ta-text">13. இயற்கை, அனுபவிப்பாளர்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Field & Knower</span><span class="ta-text">— ஷேத்ரம் - ஷேத்ரக்ஞன்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Bhakti is established. Now Arjuna wants to understand the 'Mechanism' of the world (Prakrti) and the Enjoyer (Purusa) (<a href="https://vedabase.io/en/library/bg/13/1/">13.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: பக்தி உறுதிப்படுத்தப்பட்டது. இப்போது அர்ஜுனன் உலகின் 'செயல்பாட்டை' (இயற்கை) மற்றும் அனுபவிப்பாளர் பற்றி கேட்கிறான்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-7: The Field (Body)</span><span class="ta-text">1-7: ஷேத்ரம் (உடல்)</span></li>
+                        <li><span class="en-text">8-12: Process of Knowledge</span><span class="ta-text">8-12: ஞானத்தின் செயல்முறை</span></li>
+                        <li><span class="en-text">20-35: Prakrti & Purusa</span><span class="ta-text">20-35: இயற்கை & புருஷன்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/13/22/" class="verse-link">13.22</a><span class="en-text">: Cause of birth in good/evil wombs.</span><span class="ta-text">: நல்/தீய பிறப்புகளின் காரணம்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">14. The Three Modes</span><span class="ta-text">14. முக்குணங்கள்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Gunatraya Vibhaga</span><span class="ta-text">— குணங்களின் பிரிவு</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: In <a href="https://vedabase.io/en/library/bg/13/22/">13.22</a>, Krishna said attachment to the Modes (Gunas) is the cause of birth. Ch 14 gives a deep analysis of what these Three Modes actually are.</span>
+                    <span class="ta-text">தொடர்பு: 13.22-ல், குணங்களின் மீதான பற்றுதலே பிறப்புக்கு காரணம் என்று கூறப்பட்டது. அத் 14 அதை விளக்குகிறது.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-9: Conditioning by Modes</span><span class="ta-text">1-9: குணங்களின் கட்டுப்பாடு</span></li>
+                        <li><span class="en-text">10-18: Characteristics</span><span class="ta-text">10-18: குணங்களின் செயல்</span></li>
+                        <li><span class="en-text">19-27: Transcending Modes</span><span class="ta-text">19-27: குணங்களைக் கடத்தல்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/14/4/" class="verse-link">14.4</a><span class="en-text">: I am the seed-giving father.</span><span class="ta-text">: விதையளிக்கும் தந்தை நானே.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/14/26/" class="verse-link">14.26</a><span class="en-text">: Bhakti transcends the modes.</span><span class="ta-text">: பக்தி குணங்களைக் கடக்க உதவுகிறது.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">15. The Supreme Person</span><span class="ta-text">15. புருஷோத்தம யோகம்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— The Banyan Tree</span><span class="ta-text">— ஆலமரம்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Ch 14 said 'Transcend the modes'. Ch 15 gives the weapon to do it: Detachment. It describes the material world as an inverted Banyan tree (<a href="https://vedabase.io/en/library/bg/15/1/">15.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: அத் 14-ல் 'குணங்களைக் கடந்து செல்' என்று கூறப்பட்டது. அத் 15 அதை செய்வதற்கான ஆயுதத்தை (பற்றின்மை) தருகிறது. உலகம் ஒரு தலைகீழ் ஆலமரம்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-6: Banyan Tree</span><span class="ta-text">1-6: ஆலமரம்</span></li>
+                        <li><span class="en-text">7-11: Transmigration</span><span class="ta-text">7-11: ஜீவனின் பயணம்</span></li>
+                        <li><span class="en-text">16-20: Tri-Sloki</span><span class="ta-text">16-20: திரி-ஸ்லோகி</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/15/15/" class="verse-link">15.15</a><span class="en-text">: I am seated in everyone's heart.</span><span class="ta-text">: நான் அனைவரின் இதயத்திலும் உள்ளேன்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">16. Divine & Demoniac</span><span class="ta-text">16. தெய்வீக - அசுர</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Daivasura Sampad</span><span class="ta-text">— தெய்வீக - அசுர சம்பத்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Ch 15 described the Supreme Person. Ch 16 describes the two classes of people: The Divine (who accept Him) and the Demoniac (who reject Him) (<a href="https://vedabase.io/en/library/bg/16/6/">16.6</a>).</span>
+                    <span class="ta-text">தொடர்பு: அத் 15 பரம்பொருளை விவரித்தது. அத் 16 மக்களை இரண்டு வகையாகப் பிரிக்கிறது: தெய்வீகமானவர் மற்றும் அசுரத்தன்மை கொண்டவர்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-3: Divine Qualities</span><span class="ta-text">1-3: தெய்வீக குணங்கள்</span></li>
+                        <li><span class="en-text">4-20: Demoniac Qualities</span><span class="ta-text">4-20: அசுர குணங்கள்</span></li>
+                        <li><span class="en-text">21-24: Gates to Hell</span><span class="ta-text">21-24: நரகத்திற்கான வாசல்கள்</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/16/21/" class="verse-link">16.21</a><span class="en-text">: Lust, Anger, Greed are gates to hell.</span><span class="ta-text">: காமம், குரோதம், லோபம் நரக வாசல்கள்.</span></li>
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/16/24/" class="verse-link">16.24</a><span class="en-text">: Shastra is the evidence.</span><span class="ta-text">: சாஸ்திரமே பிரமாணம்.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">17. Divisions of Faith</span><span class="ta-text">17. நம்பிக்கையின் பிரிவுகள்</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Faith & Scripture</span><span class="ta-text">— சாஸ்திரம் இல்லாத நம்பிக்கை?</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: Ch 16 concluded 'Let Scripture be your authority'. Arjuna asks: 'What about those who have faith (Sraddha) but don't follow scripture?' (<a href="https://vedabase.io/en/library/bg/17/1/">17.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: 'சாஸ்திரமே உனக்கு பிரமாணம்' என்று அத் 16 முடிந்தது. அர்ஜுனன் கேட்கிறான்: 'நம்பிக்கை இருந்து, ஆனால் சாஸ்திரத்தைப் பின்பற்றாதவர்களின் நிலை என்ன?'</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-6: Faith in 3 Modes</span><span class="ta-text">1-6: மூன்று விதமான நம்பிக்கை</span></li>
+                        <li><span class="en-text">7-22: Food, Sacrifice, Austerity</span><span class="ta-text">7-22: உணவு, யாகம், தவம்</span></li>
+                        <li><span class="en-text">23-28: Om Tat Sat</span><span class="ta-text">23-28: ஓம் தத் சத்</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <details class="chapter-card">
+            <summary>
+                <div class="card-header-text">
+                    <span class="card-title"><span class="en-text">18. Conclusion</span><span class="ta-text">18. முடிவு</span></span>
+                    <span class="card-subtitle"><span class="en-text">— Renunciation vs Giving Up</span><span class="ta-text">— சந்நியாசம் vs தியாகம்</span></span>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </summary>
+            <div class="card-content">
+                <span class="connection-label"><span class="en-text">Logic Connection</span><span class="ta-text">தொடர்பு</span></span>
+                <div class="link-text">
+                    <span class="en-text">Connection: The Grand Summary. Arjuna wants the final clear definition of 'Sannyasa' (Renunciation) and 'Tyaga' (Giving up). Krishna summarizes the whole Gita (<a href="https://vedabase.io/en/library/bg/18/1/">18.1</a>).</span>
+                    <span class="ta-text">தொடர்பு: இறுதி சுருக்கம். அர்ஜுனன் 'சந்நியாசம்' மற்றும் 'தியாகம்' ஆகியவற்றின் தெளிவான வேறுபாட்டை அறிய விரும்புகிறான். கிருஷ்ணர் முழு கீதையையும் சுருக்கி கூறுகிறார்.</span>
+                </div>
+                <div class="breakdown-box">
+                    <span class="breakdown-title"><span class="en-text">Breakdown</span><span class="ta-text">பிரிவுகள்</span></span>
+                    <ul class="breakdown-list">
+                        <li><span class="en-text">1-12: Sannyasa vs Tyaga</span><span class="ta-text">1-12: சந்நியாசம் vs தியாகம்</span></li>
+                        <li><span class="en-text">13-18: 5 Factors of Action</span><span class="ta-text">13-18: செயலின் 5 காரணிகள்</span></li>
+                        <li><span class="en-text">19-40: Action in 3 Modes</span><span class="ta-text">19-40: ஞானம்/செயல் மும்மூறைகள்</span></li>
+                        <li><span class="en-text">61-66: Final Surrender</span><span class="ta-text">61-66: இறுதி சரணாகதி</span></li>
+                    </ul>
+                </div>
+                <div class="verses-box">
+                    <span class="verses-title"><span class="en-text">Key Verses</span><span class="ta-text">முக்கிய ஸ்லோகங்கள்</span></span>
+                    <ul class="verse-list">
+                        <li class="verse-item"><a href="https://vedabase.io/en/library/bg/18/66/" class="verse-link">18.66</a><span class="en-text">: Surrender to Me.</span><span class="ta-text">: என்னிடம் சரணடை.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+    </div>
+
+    <div class="footer">
+        Based on "BG Notes v3.1" & "prabhupadagita.com" (108 Verses)<br>Links: Vedabase.io
+    </div>
+
+</body>
+</html>

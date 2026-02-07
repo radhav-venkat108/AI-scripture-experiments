@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Family Tree Explorer</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 15px; background-color: #fdfdfd; -webkit-text-size-adjust: 100%; }
+        
+        /* HEADER / CONTROLS */
+        .controls { 
+            position: sticky; top: 0; background: white; z-index: 1000; 
+            padding: 10px; border-bottom: 2px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        h1 { margin: 0; font-size: 1.2em; color: #8b0000; }
+        
+        /* SEARCH FORM - key for iOS keyboard support */
+        .search-row { display: flex; gap: 5px; margin-bottom: 8px; }
+        input { 
+            flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; 
+            font-size: 16px; /* Prevents iOS zoom on focus */
+        }
+        button { 
+            padding: 10px 15px; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 4px; 
+            font-weight: bold; color: #333; font-size: 14px;
+        }
+        button.active { background: #e67e22; color: white; border-color: #d35400; }
+        
+        #match-count { font-size: 0.85em; color: #666; font-weight: bold; margin-left: 5px; }
+
+        /* TREE STRUCTURE */
+        .tree-container { margin-top: 15px; padding-bottom: 80px; }
+        
+        details { margin: 5px 0; padding-left: 15px; border-left: 2px solid #eee; }
+        details[open] { border-left: 3px solid #e67e22; background-color: #fffaf0; }
+
+        summary {
+            font-weight: bold; cursor: pointer; padding: 8px 5px; list-style: none;
+            display: flex; align-items: center;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before {
+            content: "▶"; color: #e67e22; display: inline-block; margin-right: 8px; font-size: 0.8em; transition: transform 0.2s;
+        }
+        details[open] > summary::before { transform: rotate(90deg); }
+
+        /* LANGUAGE TOGGLING */
+        .lang-ta { display: none; color: #006400; }
+        .lang-en { display: inline; }
+        body.show-ta .lang-ta { display: inline; }
+        body.show-ta .lang-en { display: none; }
+
+        /* HIGHLIGHTING */
+        .highlight { background-color: #ffff00; border: 1px solid #e67e22; border-radius: 3px; }
+        .spouse { font-size: 0.9em; color: #d35400; font-style: italic; display: block; margin-top: 2px; font-weight: normal; }
+        
+        /* DEBUG FOOTER */
+        #debug-log { font-size: 10px; color: #aaa; margin-top: 20px; text-align: center; }
+    </style>
+</head>
+<body class="show-en"> 
+
+    <div class="controls">
+        <div class="header-row">
+            <h1>Family Tree</h1>
+            <div>
+                <button id="btn-en" class="active" onclick="setLang('en')">Eng</button>
+                <button id="btn-ta" onclick="setLang('ta')">Other</button>
+            </div>
+        </div>
+        
+        <form onsubmit="handleSearch(event)" class="search-row">
+            <input type="search" id="searchBox" placeholder="Search..." autocomplete="off">
+            <button type="submit">Search</button>
+        </form>
+        
+        <div class="header-row" style="margin-bottom:0;">
+            <span id="match-count"></span>
+            <div>
+                 <button onclick="safeExpandAll()" style="font-size: 12px;">Expand All</button>
+                 <button onclick="safeCollapseAll()" style="font-size: 12px;">Collapse</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tree-container">
+
+        <details>
+            <summary><span class="lang-en">Kṛṣṇa</span><span class="lang-ta">கிருஷ்ணர்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Lord Brahmā</span><span class="lang-ta">பிரம்மா</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Svāyambhuva Manu</span><span class="lang-ta">சுவாயம்புவ மனு</span><span class="spouse lang-en">(w: Śatarūpā)</span><span class="spouse lang-ta">(w: சதரூபை)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Priyavrata</span><span class="lang-ta">பிரியவிரதன்</span><span class="spouse lang-en">(w: Barhiṣmatī)</span><span class="spouse lang-ta">(w: பர்ஹிஷ்மதி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">1 Daughter (Devayānī)</span><span class="lang-ta">1 மகள் (தேவயானி)</span><span class="spouse lang-en">(w: Śukrācārya)</span><span class="spouse lang-ta">(w: சுக்ராச்சாரியார்)</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 became Manus</span><span class="lang-ta">3 மனுக்கள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 became sannyāsīs</span><span class="lang-ta">3 சன்னியாசிகள்</span></div>
+        <details>
+            <summary><span class="lang-en">7 rulers of 7 islands</span><span class="lang-ta">7 தீவுகளின் ஆட்சியாளர்கள்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Agnīdhra</span><span class="lang-ta">அக்னீத்ரன்</span><span class="spouse lang-en">(w: Pūrvacitti)</span><span class="spouse lang-ta">(w: பூர்வசித்தி)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">9 sons</span><span class="lang-ta">9 மகன்கள்</span><span class="spouse lang-en">(w: 9 daughters of Meru)</span><span class="spouse lang-ta">(w: மேருவின் 9 மகள்கள்)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">King Nābhi (Oldest)</span><span class="lang-ta">மன்னர் நாபி</span><span class="spouse lang-en">(w: Merudevī)</span><span class="spouse lang-ta">(w: மேருதேவி)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Lord Ṛṣabhadeva</span><span class="lang-ta">ரிஷபதேவர்</span><span class="spouse lang-en">(w: Jayantī)</span><span class="spouse lang-ta">(w: ஜயந்தி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">9 Yogendras</span><span class="lang-ta">9 யோகேந்திரர்கள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">90 other sons</span><span class="lang-ta">மற்ற 90 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Bharata</span><span class="lang-ta">பரதன்</span><span class="spouse lang-en">(w: Pañcajanī)</span><span class="spouse lang-ta">(w: பஞ்சனி)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Many Descendants</span><span class="lang-ta">பல சந்ததியினர்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Mahārāja Gaya</span><span class="lang-ta">மகாராஜா கயன்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Uttānapāda</span><span class="lang-ta">உத்தானபாதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Suruci</span><span class="lang-ta">சுருசி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Uttama</span><span class="lang-ta">உத்தமன்</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Sunīti</span><span class="lang-ta">சுநீதி</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Dhruva</span><span class="lang-ta">துருவன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Utkala</span><span class="lang-ta">உத்கலன்</span></div>
+        <details>
+            <summary><span class="lang-en">Vatsara</span><span class="lang-ta">வத்சரன்</span><span class="spouse lang-en">(w: Svarvīthi)</span><span class="spouse lang-ta">(w: ஸ்வர்வீதி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 other sons</span><span class="lang-ta">மற்ற 5 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Puṣpārṇa</span><span class="lang-ta">புஷ்பர்ணன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 other sons</span><span class="lang-ta">மற்ற 5 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Vyuṣṭa</span><span class="lang-ta">வ்யுஷ்டன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Sarvatejā</span><span class="lang-ta">ஸர்வதேஜா</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Cākṣuṣa Manu</span><span class="lang-ta">சாக்ஷுஷ மனு</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">11 other sons</span><span class="lang-ta">மற்ற 11 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Ulmuka</span><span class="lang-ta">உல்முகன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 other sons</span><span class="lang-ta">மற்ற 5 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Anga</span><span class="lang-ta">அங்கன்</span><span class="spouse lang-en">(w: Sunīthā)</span><span class="spouse lang-ta">(w: சுநீதா)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Vena</span><span class="lang-ta">வேனன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Niṣāda</span><span class="lang-ta">நிஷாதன்</span></div>
+        <details>
+            <summary><span class="lang-en">Pṛthu</span><span class="lang-ta">பிருது</span><span class="spouse lang-en">(w: Arci)</span><span class="spouse lang-ta">(w: அர்சி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">4 other sons</span><span class="lang-ta">மற்ற 4 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Vijitāśva</span><span class="lang-ta">விஜிதாஸ்வன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 other sons</span><span class="lang-ta">மற்ற 3 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Havirdhāna</span><span class="lang-ta">ஹவிர்தானன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 other sons</span><span class="lang-ta">மற்ற 5 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Barhiṣat</span><span class="lang-ta">பர்ஹிஷத்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Pracetās - 10 sons</span><span class="lang-ta">பிரசேதஸ்கள்</span><span class="spouse lang-en">(w: Māriṣā)</span><span class="spouse lang-ta">(w: மாரிஷா)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Dakṣa</span><span class="lang-ta">தக்ஷன்</span><span class="spouse lang-en">(w: Asiknī)</span><span class="spouse lang-ta">(w: அசிக்னி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">60 daughters</span><span class="lang-ta">60 புதல்விகள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">10,000 Haryaśvas</span><span class="lang-ta">10,000 ஹர்யஸ்வாக்கள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">10,000 Savalāśvas</span><span class="lang-ta">10,000 ஸவலஸ்வாக்கள்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Ākūti</span><span class="lang-ta">ஆகூதி</span><span class="spouse lang-en">(w: Ruci)</span><span class="spouse lang-ta">(w: ருசி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Yajña</span><span class="lang-ta">யக்ஞா</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Dakṣiṇā</span><span class="lang-ta">தக்ஷிணா</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Prasūti</span><span class="lang-ta">பிரசூதி</span><span class="spouse lang-en">(w: Dakṣa)</span><span class="spouse lang-ta">(w: தக்ஷன்)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Satī</span><span class="lang-ta">சதி</span><span class="spouse lang-en">(w: Lord Śiva)</span><span class="spouse lang-ta">(w: சிவபெருமான்)</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">12 other daughters</span><span class="lang-ta">மற்ற 12 புதல்விகள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Aditi</span><span class="lang-ta">அதிதி</span><span class="spouse lang-en">(w: Kaśyapa)</span><span class="spouse lang-ta">(w: கஷ்யபர்)</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Diti</span><span class="lang-ta">திதி</span><span class="spouse lang-en">(w: Kaśyapa)</span><span class="spouse lang-ta">(w: கஷ்யபர்)</span></div>
+        <details>
+            <summary><span class="lang-en">Mūrti</span><span class="lang-ta">மூர்த்தி</span><span class="spouse lang-en">(w: Dharma)</span><span class="spouse lang-ta">(w: தர்மன்)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Nara-Nārāyaṇa</span><span class="lang-ta">நர-நாராயணர்</span></div>
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Devahūti</span><span class="lang-ta">தேவஹூதி</span><span class="spouse lang-en">(w: Kardama)</span><span class="spouse lang-ta">(w: கர்தமர்)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lord Kapila</span><span class="lang-ta">கபில தேவர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">7 other daughters</span><span class="lang-ta">மற்ற 7 புதல்விகள்</span></div>
+        <details>
+            <summary><span class="lang-en">Kalā</span><span class="lang-ta">கலா</span><span class="spouse lang-en">(w: Marīci)</span><span class="spouse lang-ta">(w: மரீசி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Kaśyapa</span><span class="lang-ta">கஷ்யபர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Pūrṇimā</span><span class="lang-ta">பூர்ணிமா</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Anasūyā</span><span class="lang-ta">அனசூயை</span><span class="spouse lang-en">(w: Atri)</span><span class="spouse lang-ta">(w: அத்ரி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Soma</span><span class="lang-ta">சோமன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Dattātreya</span><span class="lang-ta">தத்தாத்ரேயர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Durvāsā</span><span class="lang-ta">துர்வாசர்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Atri Muni</span><span class="lang-ta">அத்ரி முனிவர்</span><span class="spouse lang-en">(w: Anasūyā)</span><span class="spouse lang-ta">(w: அனசூயை)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Soma (Moon God)</span><span class="lang-ta">சோமன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Budha (Mercury)</span><span class="lang-ta">புதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Pururava</span><span class="lang-ta">புரூரவா</span><span class="spouse lang-en">(w: Urvaśī)</span><span class="spouse lang-ta">(w: ஊர்வசி)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Vijaya</span><span class="lang-ta">விஜயன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Some descendants</span><span class="lang-ta">சில சந்ததியினர்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Gadhi</span><span class="lang-ta">காதி</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Satyavatī</span><span class="lang-ta">சத்யவதி</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Jamadagni</span><span class="lang-ta">ஜமதக்னி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lord Paraśurāma</span><span class="lang-ta">பரசுராமர்</span></div>
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Viśvāmitra</span><span class="lang-ta">விசுவாமித்திரர்</span><span class="spouse lang-en">(w: Menakā)</span><span class="spouse lang-ta">(w: மேனகை)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Śakuntalā</span><span class="lang-ta">சகுந்தலை</span><span class="spouse lang-en">(w: Duṣmanta)</span><span class="spouse lang-ta">(w: துஷ்யந்தன்)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">[See Puru's descendants for Bharata]</span><span class="lang-ta">[பரதனை புரு வம்சத்தில் காண்க]</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">4 other sons</span><span class="lang-ta">மற்ற 4 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Āyu</span><span class="lang-ta">ஆயு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Kṣatravṛddha</span><span class="lang-ta">க்ஷத்ரவிருத்தன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Many descendants</span><span class="lang-ta">பல சந்ததியினர்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Śaunaka Ṛṣi</span><span class="lang-ta">சௌனக ரிஷி</span></div>
+        </details>
+        
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 other sons</span><span class="lang-ta">மற்ற 3 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Nahuṣa</span><span class="lang-ta">நஹுஷன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 other sons</span><span class="lang-ta">மற்ற 5 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Yayāti</span><span class="lang-ta">யயாதி</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Yadu</span><span class="lang-ta">யது</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 other sons</span><span class="lang-ta">மற்ற 3 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Kroṣṭa</span><span class="lang-ta">குரோஷ்டா</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Sātvata</span><span class="lang-ta">சாத்வதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Vṛṣṇi</span><span class="lang-ta">விருஷ்ணி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 other sons</span><span class="lang-ta">மற்ற 5 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Śūrasena</span><span class="lang-ta">சூரசேனன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Vasudeva</span><span class="lang-ta">வசுதேவர்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lord Balarāma</span><span class="lang-ta">பலராமர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Subhadrā</span><span class="lang-ta">சுபத்ரா</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lord Kṛṣṇa</span><span class="lang-ta">கிருஷ்ணர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Other sons</span><span class="lang-ta">மற்ற மகன்கள்</span></div>
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">9 other sons</span><span class="lang-ta">மற்ற 9 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Kuntī</span><span class="lang-ta">குந்தி</span><span class="spouse lang-en">(w: Pāṇḍu)</span><span class="spouse lang-ta">(w: பாண்டு)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Karṇa</span><span class="lang-ta">கர்ணன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">The Pāṇḍavas</span><span class="lang-ta">பாண்டவர்கள்</span></div>
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">4 other daughters</span><span class="lang-ta">மற்ற 4 மகள்கள்</span></div>
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Andhaka</span><span class="lang-ta">அந்தகன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Āhuka</span><span class="lang-ta">ஆஹுகன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Ugrasena</span><span class="lang-ta">உக்ரசேனன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">8 other sons</span><span class="lang-ta">மற்ற 8 மகன்கள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Kaṁsa</span><span class="lang-ta">கம்சன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">5 daughters</span><span class="lang-ta">5 மகள்கள்</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Devaka</span><span class="lang-ta">தேவகன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">6 other daughters</span><span class="lang-ta">மற்ற 6 மகள்கள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Devakī</span><span class="lang-ta">தேவகி</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">4 sons</span><span class="lang-ta">4 மகன்கள்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 other sons</span><span class="lang-ta">மற்ற 3 மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Puru</span><span class="lang-ta">புரு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Duṣmanta</span><span class="lang-ta">துஷ்யந்தன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Bharata</span><span class="lang-ta">பரதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Bharadvāja</span><span class="lang-ta">பரத்வாஜர்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Manyu</span><span class="lang-ta">மன்யு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Nara</span><span class="lang-ta">நரன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Saṅkṛti</span><span class="lang-ta">சங்ருதி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Guru</span><span class="lang-ta">குரு</span></div>
+        <details>
+            <summary><span class="lang-en">Rantideva</span><span class="lang-ta">ரந்திதேவன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Ajamīḍha</span><span class="lang-ta">அஜமீடன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Other sons</span><span class="lang-ta">மற்ற மகன்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Nīla</span><span class="lang-ta">நீலன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Drupada</span><span class="lang-ta">துருபதன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Draupadī</span><span class="lang-ta">திரௌபதி</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Dhṛṣṭadyumna</span><span class="lang-ta">திருஷ்டத்யும்னன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Other sons</span><span class="lang-ta">மற்ற மகன்கள்</span></div>
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Ṛkṣa</span><span class="lang-ta">ரிக்ஷன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Kuru</span><span class="lang-ta">குரு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Śāntanu</span><span class="lang-ta">சந்தனு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Vicitravīrya</span><span class="lang-ta">விசித்திரவீரியன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Pāṇḍu</span><span class="lang-ta">பாண்டு</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Yudhiṣṭhira (2 sons)</span><span class="lang-ta">யுதிஷ்டிரன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Bhīma (3 sons)</span><span class="lang-ta">பீமன்</span></div>
+        <details>
+            <summary><span class="lang-en">Arjuna</span><span class="lang-ta">அர்ஜுனன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Abhimanyu</span><span class="lang-ta">அபிமன்யு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Parikṣit</span><span class="lang-ta">பரிட்சித்து</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Janamejaya</span><span class="lang-ta">ஜனமேஜயன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">3 other sons</span><span class="lang-ta">மற்ற 3 மகன்கள்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Nakula (2 sons)</span><span class="lang-ta">நகுலன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Sahadeva (2 sons)</span><span class="lang-ta">சகாதேவன்</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Dhṛtarāṣṭra</span><span class="lang-ta">திருதராஷ்டிரன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Duryodhana</span><span class="lang-ta">துரியோதனன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">1 daughter</span><span class="lang-ta">1 மகள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">99 other sons</span><span class="lang-ta">மற்ற 99 மகன்கள்</span></div>
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Vidura</span><span class="lang-ta">விதுரன்</span></div>
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Bhīṣma</span><span class="lang-ta">பீஷ்மர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Citrāṅgada</span><span class="lang-ta">சித்ராங்கதன்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Other Sons of Brahmā</span><span class="lang-ta">பிரம்மா வின் மற்ற மகன்கள்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Nārada Muni</span><span class="lang-ta">நாரத முனிவர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Four Kumāras</span><span class="lang-ta">நான்கு குமாரர்கள்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lord Śiva</span><span class="lang-ta">சிவபெருமான்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Kratu</span><span class="lang-ta">க்ரது</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Bhṛgu</span><span class="lang-ta">பிருகு</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Atreya</span><span class="lang-ta">ஆத்ரேயர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Pulaha</span><span class="lang-ta">புலஹர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Vasiṣṭha</span><span class="lang-ta">வசிஷ்டர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Aṅgirā</span><span class="lang-ta">அங்கிரா</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Pulastya</span><span class="lang-ta">புலஸ்தியர்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Others</span><span class="lang-ta">மற்றவர்கள்</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Marīci</span><span class="lang-ta">மரீசி</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Kaśyapa</span><span class="lang-ta">கஷ்யபர்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Diti</span><span class="lang-ta">திதி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Hiraṇyākṣa</span><span class="lang-ta">ஹிரண்யாக்ஷன்</span></div>
+        <details>
+            <summary><span class="lang-en">Hiraṇyakaśipu</span><span class="lang-ta">ஹிரண்யகசிபு</span><span class="spouse lang-en">(w: Kayādhu)</span><span class="spouse lang-ta">(w: கயாது)</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Prahlāda</span><span class="lang-ta">பிரகலாதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Virocana</span><span class="lang-ta">விரோசனன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Bali</span><span class="lang-ta">பலி சக்கரவர்த்தி</span><span class="spouse lang-en">(w: Vindhyāvali)</span><span class="spouse lang-ta">(w: விந்தியாவலி)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Bāṇa</span><span class="lang-ta">பாணாசுரன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">99 others</span><span class="lang-ta">மற்ற 99 பேர்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">49 Maruts</span><span class="lang-ta">49 மருத்துக்கள்</span></div>
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Aditi</span><span class="lang-ta">அதிதி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Many Demigods</span><span class="lang-ta">பல தேவர்கள்</span></div>
+        <details>
+            <summary><span class="lang-en">Vivasvān (Sun God)</span><span class="lang-ta">விஸ்வஸ்வான்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Vaivasvata Manu</span><span class="lang-ta">வைவஸ்வத மனு</span><span class="spouse lang-en">(w: Śraddhā)</span><span class="spouse lang-ta">(w: ஷ்ரத்தா)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Ilā (Sudyumna)</span><span class="lang-ta">இலா (சுத்யும்னன்)</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Nṛga</span><span class="lang-ta">நிருகன்</span></div>
+        <details>
+            <summary><span class="lang-en">Śaryāti</span><span class="lang-ta">சர்யாதி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Sukanyā (m. Cyavana)</span><span class="lang-ta">சுகன்யா</span></div>
+        <details>
+            <summary><span class="lang-en">Ānarta</span><span class="lang-ta">ஆனர்த்தன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Revata</span><span class="lang-ta">ரேவதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Kakudmi</span><span class="lang-ta">ககுத்மி</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Revatī (m. Balarāma)</span><span class="lang-ta">ரேவதி</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Nabhaga</span><span class="lang-ta">நபகன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Nābhāga</span><span class="lang-ta">நாபாகன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Ambarīṣa Mahārāja</span><span class="lang-ta">அம்பரீஷ மகாராஜா</span></div>
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Ikṣvāku</span><span class="lang-ta">இக்ஷ்வாகு</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Nimi</span><span class="lang-ta">நிமி</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Janaka (Vaideha)</span><span class="lang-ta">ஜனகன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Śīradhvaja (Janaka)</span><span class="lang-ta">சீரதுவஜ ஜனகன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Sītā Devī (w: Rāma)</span><span class="lang-ta">சீதா தேவி</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        <details>
+            <summary><span class="lang-en">Many Descendants</span><span class="lang-ta">பல சந்ததியினர்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Hariścandra</span><span class="lang-ta">அரிச்சந்திரன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Rohita</span><span class="lang-ta">ரோகிதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Sāgara</span><span class="lang-ta">சாகரன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Aṃśumān</span><span class="lang-ta">அம்சுமான்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Dilīpa</span><span class="lang-ta">திலீபன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Bhagīratha</span><span class="lang-ta">பகீரதன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Khaṭvāṅga</span><span class="lang-ta">கட்வாங்கன்</span></summary>
+            
+        <details>
+            <summary><span class="lang-en">Daśaratha</span><span class="lang-ta">தசரதன்</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lakṣmaṇa</span><span class="lang-ta">லக்ஷ்மணன்</span></div>
+        <details>
+            <summary><span class="lang-en">Lord Rāmacandra</span><span class="lang-ta">ராமச்சந்திர மூர்த்தி</span><span class="spouse lang-en">(w: Sītā)</span><span class="spouse lang-ta">(w: சீதா)</span></summary>
+            <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Lava</span><span class="lang-ta">லவன்</span></div><div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Kuśa</span><span class="lang-ta">குசன்</span></div>
+        </details>
+        <div class='leaf-node' style='margin-left: 28px; padding:3px;'>● <span class="lang-en">Other sons</span><span class="lang-ta">மற்ற மகன்கள்</span></div>
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+        </details>
+        
+    </div>
+    
+    <div id="debug-log">Generated by v7.0</div>
+
+    <script>
+        function log(msg) { console.log(msg); }
+
+        function setLang(lang) {
+            document.body.className = (lang === 'ta') ? 'show-ta' : 'show-en';
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-ta').classList.toggle('active', lang === 'ta');
+        }
+
+        function normalize(str) {
+            if (!str) return "";
+            if (String.prototype.normalize) {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            }
+            return str.toLowerCase();
+        }
+
+        function handleSearch(e) {
+            e.preventDefault(); 
+            searchTree();
+            document.getElementById('searchBox').blur(); 
+        }
+
+        function searchTree() {
+            let rawInput = document.getElementById('searchBox').value.trim();
+            let countSpan = document.getElementById('match-count');
+            
+            let allNodes = Array.from(document.querySelectorAll('summary, .leaf-node'));
+            for (let i = 0; i < allNodes.length; i++) {
+                allNodes[i].classList.remove('highlight');
+            }
+            
+            countSpan.innerText = "";
+            if (rawInput.length < 2) return; 
+
+            let cleanInput = normalize(rawInput);
+            let matchCount = 0;
+            let firstMatch = null;
+
+            for (let i = 0; i < allNodes.length; i++) {
+                let el = allNodes[i];
+                let cleanText = normalize(el.textContent);
+                
+                if (cleanText.indexOf(cleanInput) !== -1) {
+                    matchCount++;
+                    el.classList.add('highlight');
+                    
+                    let parent = el.parentElement;
+                    while (parent) {
+                        if (parent.tagName === 'DETAILS') {
+                            parent.open = true; 
+                        }
+                        parent = parent.parentElement;
+                    }
+                    
+                    if (!firstMatch) firstMatch = el;
+                }
+            }
+
+            if (matchCount > 0) {
+                countSpan.innerText = matchCount + " found";
+                if (firstMatch.scrollIntoView) {
+                    firstMatch.scrollIntoView({block: "center"}); 
+                } else {
+                    window.scrollTo(0, firstMatch.offsetTop - 150);
+                }
+            } else {
+                countSpan.innerText = "No matches";
+            }
+        }
+        
+        function safeExpandAll() {
+            let details = Array.from(document.querySelectorAll('details'));
+            for (let i = 0; i < details.length; i++) { details[i].open = true; }
+        }
+
+        function safeCollapseAll() {
+            let details = Array.from(document.querySelectorAll('details'));
+            for (let i = 0; i < details.length; i++) { details[i].open = false; }
+        }
+    </script>
+</body>
+</html>
